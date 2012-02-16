@@ -1,0 +1,98 @@
+% -*- coding:utf-8 -*-
+\documentclass[12 pt, a4paper, twoside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish, activeacute]{babel}
+\usepackage[bookmarks, hyperfootnotes=false, colorlinks=true,%
+            urlcolor=blue, linkcolor=black,  citecolor=black,%
+            pagecolor=black, anchorcolor=black, breaklinks=true]{hyperref}
+\usepackage{times}
+
+\usepackage[pdftex]{graphicx}
+%\usepackage{rotating}
+\graphicspath{{img/}}
+
+\usepackage{epstopdf}
+\epstopdfsetup{outdir=img/,
+  suffix=-generated}
+
+\usepackage[pdftex]{color}
+\definecolor{gray97}{gray}{.97}
+\definecolor{gray75}{gray}{.75}
+\definecolor{gray45}{gray}{.45}
+
+\usepackage{listingsutf8}
+\lstset{
+  inputencoding = utf8/latin1,
+                  %
+                  frame = Ltb,
+                  framerule = 0 pt,
+                  aboveskip = 0.5 cm,
+                  framextopmargin = 3 pt,
+                  framexbottommargin = 3 pt,
+                  framexleftmargin = 0.4 cm,
+                  framesep = 0 pt,
+                  rulesep = .4 pt,
+                  backgroundcolor = \color{gray97},
+                  rulesepcolor = \color{black},
+                  %
+                  stringstyle = \ttfamily,
+                  showstringspaces  =  false,
+                  basicstyle = \small\ttfamily,
+                  commentstyle = \color{gray45},
+                  keywordstyle = \bfseries,
+                  %
+                  numbers = left,
+                  numbersep = 15 pt,
+                  numberstyle = \tiny,
+                  numberfirstline  =  false,
+                  breaklines = true
+}
+
+\usepackage[pdftex]{hyperref}
+\hypersetup{colorlinks = true, urlcolor = blue,
+            pdftitle = Fase de Inicio,
+            pdfsubject = Práctica de Ingeniería del Software II,
+            pdfauthor = Varios}
+
+\hoffset -0.54 cm
+\voffset -0.54 cm
+\textheight = 22 cm
+\textwidth = 17 cm
+\topmargin = 0 cm
+\oddsidemargin = 0 cm
+\evensidemargin = 0 cm
+%\parindent = 0 cm
+\parskip = 6 pt
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf[EH,EF,OH,OF]{}
+\fancyhf[OLH]{Práctica 2}
+\fancyhf[ERH]{Ingeniería del Software 2011-12}
+\fancyhf[ELH]{\thepage}
+\fancyhf[ORH]{\thepage}
+
+\pdfimageresolution = 300
+
+\title{Práctica 2 ESTRUCTURA DE LA EMPRESA\\Ingeniería del Software 2011-12}
+\author{Manuel José Abaldea García-Pliego\\
+Luis Miguel Garcia-Muñoz Pérez\\
+Eduardo Monroy Martínez\\
+Felipe Terriza García-Muñoz}
+\date{2012}
+
+\begin{document}
+
+\maketitle
+
+%\input{portada}
+%\newpage
+
+%\tableofcontents
+
+\input{estructura}
+
+
+\end{document}
