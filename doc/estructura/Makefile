@@ -8,4 +8,4 @@ main.pdf: main.tex
 
 clean:
 	rubber -clean
-	$(RM)  main.pdf *.aux *.log *.out *.eps *.toc *.lof *.lop *~
+	$(RM)  estructura.pdf *.aux *.log *.out *.eps *.toc *.lof *.lop *~
