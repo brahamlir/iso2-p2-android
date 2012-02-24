@@ -4,6 +4,7 @@ all:  main.pdf
 main.pdf: main.tex
 	pdflatex -d $<
 	pdflatex -d $<
+	$(RM) -f estructura.pdf
 	mv main.pdf estructura.pdf
 
 clean:
