@@ -4,9 +4,8 @@ all:  main.pdf
 main.pdf: main.tex
 	pdflatex -d $<
 	pdflatex -d $<
-	$(RM) -f estructura.pdf
-	mv main.pdf estructura.pdf
+	$(RM) -f Shurdroid_Estructura.pdf
+	mv main.pdf Shurdroid_Estructura.pdf
 
 clean:
-	rubber -clean
-	$(RM)  estructura.pdf *.aux *.log *.out *.eps *.toc *.lof *.lop *~
+	$(RM) Shurdroid_Estructura.pdf *.aux *.log *.out *.eps *.toc *.lof *.lop *~
