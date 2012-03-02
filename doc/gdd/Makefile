@@ -1,6 +1,8 @@
-all:  main.pdf
+DOCFILES := presupuesto.tex
 
-gdd.pdf: gdd.tex
+all:  gdd.pdf
+
+gdd.pdf: gdd.tex $(DOCFILES)
 	pdflatex -d $<
 	pdflatex -d $<
 
