@@ -1,5 +1,7 @@
 DOCFILES := presupuesto.tex
 
+.PHONY: all gdd.pdf
+
 all:  gdd.pdf
 
 gdd.pdf: gdd.tex $(DOCFILES)
