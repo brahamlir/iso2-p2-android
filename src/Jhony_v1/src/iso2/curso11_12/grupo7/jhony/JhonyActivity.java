@@ -1,5 +1,13 @@
 package iso2.curso11_12.grupo7.jhony;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import java.util.Stack;
+
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.handler.IUpdateHandler;
@@ -42,8 +50,26 @@ public class JhonyActivity extends BaseGameActivity
   /** Intervalos de tiempo en los que avanza cada fragmento del salto. */
   private static final float MIN_JUMP_INTERVAL = 0.05f;
 
-  /** Contador de tiempo. */
-  private float _secondsPassed;
+  /** Intervalos en los que avanzan las cajas, en píxeles. */
+  private static final int BOX_DISP = 3;
+  
+  /** Intervalos de tiempo en los que avanzan las cajas. */
+  private static final float MIN_BOX_INTERVAL = 0.05f;
+  
+  /** Intervalos de tiempo en los que se generan las cajas. */
+  private static final float MIN_GENERATE_INTERVAL = 2.0f;
+  
+  /** Escena. */
+  Scene _scene;
+  
+  /** Contador de tiempo para los saltos. */
+  private float _jumpSecondsPassed;
+  
+  /** Contador de tiempo para mover las cajas. */
+  private float _boxSecondsPassed;
+  
+  /** Contador de tiempo para generar las cajas. */
+  private float _generateBoxSecondsPassed;
   
   /** Textura para el personaje corriendo. */
   private TiledTextureRegion _runnerTexture;
@@ -66,6 +92,9 @@ public class JhonyActivity extends BaseGameActivity
   /** Textura para el suelo. */
   private TextureRegion _floorTexture;
   
+  /** Sprite para el suelo. */
+  private Sprite _floorSprite;
+  
   /** True cuando el personaje está saltando (ascendiendo). */
   private boolean _jumping;
   
@@ -75,14 +104,27 @@ public class JhonyActivity extends BaseGameActivity
   /** Contador de píxeles saltados. */
   private int _pixelsJumped;
   
+  /** Textura para la caja. */
+  private TextureRegion _boxTexture;
+  
+  /** Lista de cajas a esquivar. */
+  private List<Sprite> _boxes;
+  
+  /** Generador de números aleagorios. */
+  private Random _rnd;
+    
   /** Carga del motor. */
   @Override
   public Engine onLoadEngine()
   {
-    _secondsPassed = 0.0f;
+    _jumpSecondsPassed = 0.0f;
+    _boxSecondsPassed = 0.0f;
+    _generateBoxSecondsPassed = 0.0f;
     _pixelsJumped = 0;
     _jumping = false;
     _falling = false;
+    _rnd = new Random();
+    _boxes = Collections.synchronizedList(new LinkedList<Sprite>());
     
     Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
@@ -109,6 +151,10 @@ public class JhonyActivity extends BaseGameActivity
     _jumperTexture = 
         BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(
             playerAtlas, this, "jumper.png", 73, 0, 1, 4);
+    
+    _boxTexture =
+        BitmapTextureAtlasTextureRegionFactory.createFromAsset(
+            playerAtlas, this, "box.png", 145, 0);
 
     BitmapTextureAtlas backgroundBackAtlas = new BitmapTextureAtlas(1024, 1024,
         TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -137,7 +183,7 @@ public class JhonyActivity extends BaseGameActivity
   @Override
   public Scene onLoadScene()
   {
-    final Scene scene = new Scene();
+    _scene = new Scene();
     final AutoParallaxBackground autoParallaxBackground =
         new AutoParallaxBackground(0, 0, 0, 5);
     
@@ -146,15 +192,15 @@ public class JhonyActivity extends BaseGameActivity
     _runnerSprite = new AnimatedSprite(72, 32, _runnerTexture);
     _jumperSprite = new AnimatedSprite(24, 128, _jumperTexture);
     
-    scene.registerUpdateHandler(this);
-    scene.setOnSceneTouchListener(this);
+    _scene.registerUpdateHandler(this);
+    _scene.setOnSceneTouchListener(this);
     
     _runnerSprite.animate(250, true);
-    scene.attachChild(_runnerSprite);
+    _scene.attachChild(_runnerSprite);
     _runnerSprite.setPosition(CAMERA_WIDTH / 3, (CAMERA_HEIGHT / 4) * 3);
     
     _jumperSprite.animate(250, true);
-    scene.attachChild(_jumperSprite);
+    _scene.attachChild(_jumperSprite);
     _jumperSprite.setPosition(_runnerSprite.getX(), _runnerSprite.getY());
     _jumperSprite.setVisible(false);
     
@@ -171,15 +217,15 @@ public class JhonyActivity extends BaseGameActivity
     autoParallaxBackground.attachParallaxEntity(
         new ParallaxEntity(-2.5f, backgroundCactusSprite));
     
-    Sprite floorSprite = new Sprite(0, _runnerSprite.getY() + 32,
+    _floorSprite = new Sprite(0, _runnerSprite.getY() + 32,
         _floorTexture);
- 
+    
     autoParallaxBackground.attachParallaxEntity(
-        new ParallaxEntity(-10.0f, floorSprite));
+        new ParallaxEntity(-10.0f, _floorSprite));
     
-    scene.setBackground(autoParallaxBackground);
+    _scene.setBackground(autoParallaxBackground);
     
-    return scene;
+    return _scene;
   }
 
   /** Método que se ejecuta al acabar la carga. */
@@ -191,13 +237,18 @@ public class JhonyActivity extends BaseGameActivity
   @Override
   public void onUpdate(float secondsSinceLastLoop)
   {
+    // Actualizar contador para mover las cajas.
+    _boxSecondsPassed += secondsSinceLastLoop;
+    _generateBoxSecondsPassed += secondsSinceLastLoop;
+    
+    // Saltar
     if (_jumping)
     {
-      _secondsPassed += secondsSinceLastLoop;
+      _jumpSecondsPassed += secondsSinceLastLoop;
       
-      if (_secondsPassed >= MIN_JUMP_INTERVAL)
+      if (_jumpSecondsPassed >= MIN_JUMP_INTERVAL)
       {
-        _secondsPassed = 0;
+        _jumpSecondsPassed = 0;
         
         _jumperSprite.setPosition(_jumperSprite.getX(),
             _jumperSprite.getY() - PIXELS_DISP);
@@ -212,13 +263,14 @@ public class JhonyActivity extends BaseGameActivity
       }
     }
     
+    // Caer
     if (_falling)
     {
-      _secondsPassed += secondsSinceLastLoop;
+      _jumpSecondsPassed += secondsSinceLastLoop;
       
-      if (_secondsPassed >= MIN_JUMP_INTERVAL)
+      if (_jumpSecondsPassed >= MIN_JUMP_INTERVAL)
       {
-        _secondsPassed = 0;
+        _jumpSecondsPassed = 0;
         
         _jumperSprite.setPosition(_jumperSprite.getX(),
             _jumperSprite.getY() + PIXELS_DISP);
@@ -232,6 +284,47 @@ public class JhonyActivity extends BaseGameActivity
           _runnerSprite.setVisible(true);
         }
       }
+    }
+    
+    // Generar cajas.
+    if (_generateBoxSecondsPassed >= MIN_GENERATE_INTERVAL)
+    {
+      _generateBoxSecondsPassed = 0.0f;
+      
+      if ((int)(_rnd.nextFloat() * 10.0f) <= 1 )
+      {
+        Sprite s = new Sprite(32, 32, _boxTexture);
+        _boxes.add(s);
+        _scene.attachChild(s);
+        s.setPosition(CAMERA_WIDTH, _floorSprite.getY() - 32);
+      }
+    }
+    
+    // Mover cajas.
+    if (_boxSecondsPassed >= MIN_BOX_INTERVAL)
+    {
+      _boxSecondsPassed = 0.0f;
+      for (Sprite s: _boxes)
+        s.setPosition(s.getX() - BOX_DISP, s.getY());
+    }
+    
+    // Eliminar cajas fuera de la imagen.
+    Stack<Integer> indexToRemove = new Stack<Integer>();
+    
+    int i = 0;
+    
+    for (Sprite s: _boxes)
+    {
+      if (s.getX() + 32 < 0)
+        indexToRemove.push(i);
+      ++i;
+    }
+    
+    while (!indexToRemove.empty())
+    {
+      int n = (int)indexToRemove.pop();
+      _scene.detachChild(_boxes.get(n) );
+      _boxes.remove(n);
     }
   }
 
