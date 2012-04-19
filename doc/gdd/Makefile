@@ -1,13 +1,15 @@
 DOCFILES := presupuesto.tex
 
-.PHONY: all gdd.pdf
+.PHONY: all img gdd.pdf
 
-all:  gdd.pdf
+all:  img gdd.pdf
+
+img:
+	python2.7 images.py
 
 gdd.pdf: gdd.tex $(DOCFILES)
 	pdflatex -d $<
 	pdflatex -d $<
 
 clean:
-	rubber -clean
-	$(RM) gdd.pdf *.aux *.log *.out *.eps *.toc *.lof *.lop *~
+	$(RM) gdd.pdf *.aux *.log *.out *.eps *.toc *.lof *.lop img/*-generated.pdf *~

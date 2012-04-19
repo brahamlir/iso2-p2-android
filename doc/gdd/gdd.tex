@@ -92,20 +92,22 @@ Felipe Terriza García-Muñoz}
 
 %\tableofcontents
 
-\section{Introducción}
+\section{Introducción.}
 
 En este documento describimos el videojuego que vamos a crear. Es de carácter
 iterativo, de manera que se obtendrá una nueva versión de él al final de cada
 ciclo de desarrollo. La versión final será aquella que vaya junto con la
 versión definitiva del videojuego.
 
-\subsection{Registro de cambios}
+\subsection{Registro de cambios.}
 
 \begin{itemize}
+  \item 19 de Abril del 2012: Añadidos diagramas de casos de uso y de clases.
+    cambiada sección «trabajo pendiente».
   \item 2 de Marzo del 2012: Primera versión del documento.
 \end{itemize}
 
-\section{Diseño del juego}
+\section{Diseño del juego.}
 
 El juego consistirá en el recorrido de un personaje el cual representa a un
 alumno de Informática. Este se desplaza corriendo a través del escenario, que
@@ -117,19 +119,19 @@ esquivar saltando o agachándose, dependiendo del obstáculo.
 El estilo de juego es muy parecido a otros juegos como {\em Line Runner} o {\em
 BIT.TRIP RUNNER}.
 
-\subsection{Características}
+\subsection{Características.}
 
 \begin{itemize}
 
-  \item {\bf Genero}
+  \item {\bf Genero.}
 
     Plataformas/casual.
 
-  \item {\bf Jugadores}
+  \item {\bf Jugadores.}
 
     El juego es para un jugador por dispositivo y sin juego en red.
 
-  \item {\bf Historia}
+  \item {\bf Historia.}
 
     El personaje debe conseguir el máximo de créditos posible para terminar su
     carrera satisfactoriamente y encontrar un trabajo decente en alguna
@@ -138,54 +140,78 @@ BIT.TRIP RUNNER}.
   %\input{bocetos}
   %\input{lookandfeel}
 
-  \item {\bf Interfaz}
+  \item {\bf Interfaz.}
 
     La interacción con el jugador se realiza a través de dos botones que
     aparecen en la pantalla: uno para saltar y otro para agacharse.
 
-  \item {\bf Objetivos}
+  \item {\bf Objetivos.}
 
     El jugador deberá ganar el máximo de créditos posible. No hay un final
     definido, es una metáfora sobre lo interminable que se hace la carrera. Se
     plantea poder subir los créditos a un servidor, para poder competir con
     otros jugadores.
 
-  \item {\bf Reglas}
+  \item {\bf Reglas.}
 
     Simplemente hay que esquivar los obstáculos o bien saltando o bien
     agachándose. También hay intentar coger los objetos que aportan créditos.
 
   %\input{características}
 
-  \item {\bf Gameplay}
+  \item {\bf Gameplay.}
 
     El juego es de naturaleza casual, con una interacción sencilla con el
     usuario.
 
-  \item {\bf Diseño de niveles}
+  \item {\bf Diseño de niveles.}
 
     El escenario se genera aleatoriamente a media que el personaje avanza. Se
     plantea también aumentar la complejidad según la puntuación alcanzada.
 
-  \item {\bf Requerimientos técnicos}
+  \item {\bf Requerimientos técnicos.}
 
     Cualquier dispositivo con sistema operativo Android.
 
 \end{itemize}
 
-\section{Marketing}
+\section{Marketing.}
 
 Principalmente, se hará publicidad a través de las redes sociales (facebook,
 tuenti, twitter, ...). Se plantea tambien ofrecer ofertas (mitad de precio,
 gratis durante unas horas, ...) y anunciarlo a través de otros hipotéticos
 juegos hechos por la empresa.
 
+\clearpage
+
+\section{Diagramas.}
+
+\subsection{Casos de uso.}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width = 10 cm]{casos_de_uso_(menu).eps}
+\caption{Menú.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width = 10 cm]{casos_de_uso_(juego).eps}
+\caption{Juego.}
+\end{figure}
+
+\subsection{Clases.}
+
 \input{presupuesto}
 
-\section{Trabajo pendiente}
+\section{Trabajo pendiente.}
 
-Con la finalización de la primera versión de éste documento, se da por acabada
-la fase de pre-producción, iniciándose la fase de producción y comenzando con
-el desarrollo propiamente dicho del videojuego.
+Finalizar el juego añadiendo los elementos que faltan:
+
+\begin{itemize}
+  \item Menú.
+  \item Cambio del sprite del jugador.
+  \item Si da tiempo, añadir sonido.
+\end{itemize}
 
 \end{document}
