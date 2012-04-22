@@ -1,10 +1,13 @@
 package iso2.curso11_12.grupo7.jhony;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
+import java.util.Vector;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
@@ -18,13 +21,19 @@ import org.anddev.andengine.entity.scene.background.AutoParallaxBackground;
 import org.anddev.andengine.entity.scene.background.ParallaxBackground.ParallaxEntity;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.sprite.Sprite;
+import org.anddev.andengine.entity.text.ChangeableText;
 import org.anddev.andengine.input.touch.TouchEvent;
+import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
+
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.util.Log;
 
 
 /** Actividad que representa el juego. */
@@ -87,6 +96,13 @@ public class JhonyActivity extends BaseGameActivity
   private boolean _screenJustReleased; // Activo al soltar la pantalla
   private float _pressionTime; // Tiempo de presion de la pantalla
   
+  private BitmapTextureAtlas mFontTexture;
+  
+  private int _score; // Puntuacion
+  private Font _scoreFont;
+  private ChangeableText _scoreText;
+  
+  private List<ObstacleSprite> _obstacles;
   
   /** Carga del motor. */
   @Override
@@ -98,7 +114,9 @@ public class JhonyActivity extends BaseGameActivity
     _screenJustReleased = false;
     _pressionTime = 0;
     _jhonyLanded = true;
+    _score = 0;
     _rnd = new Random();
+    _obstacles = new ArrayList<ObstacleSprite>();
     _boxes = Collections.synchronizedList(new LinkedList<Sprite>());
     
     Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
@@ -145,8 +163,18 @@ public class JhonyActivity extends BaseGameActivity
         BitmapTextureAtlasTextureRegionFactory.createFromAsset(
             cactusAndFloorAtlas, this, "floor.png", 0, 188);
     
-    this.mEngine.getTextureManager().loadTextures(playerAtlas,
-        backgroundBackAtlas, cactusAndFloorAtlas);
+    // Texto.
+    BitmapTextureAtlas scoreAtlas = new BitmapTextureAtlas(
+    		256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+    
+    _scoreFont = new Font(scoreAtlas, 
+    		Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, 
+    		true, Color.WHITE);
+	
+	this.mEngine.getTextureManager().loadTextures(playerAtlas,
+	        backgroundBackAtlas, cactusAndFloorAtlas, scoreAtlas);
+	
+	this.mEngine.getFontManager().loadFont(_scoreFont);
   }
 
   /** Carga de la escena. */
@@ -170,6 +198,11 @@ public class JhonyActivity extends BaseGameActivity
     _jhonySprite.setScale(2);
     
     _scene.attachChild(_jhonySprite);
+    
+    // Texto.
+    _scoreText = new ChangeableText(
+    		10, 10, _scoreFont, "Creditos ECTS: 0","Creditos ECTS: XXXXX".length());
+    _scene.attachChild(_scoreText);
     
     // Fondos.
     final AutoParallaxBackground autoParallaxBackground =
@@ -234,7 +267,42 @@ public class JhonyActivity extends BaseGameActivity
     if (_screenPressed)
     	_pressionTime += secondsSinceLastLoop;
     
+
+    if (_rnd.nextInt(500) == 0) {
+    	ObstacleSprite os = new ObstacleSprite(0, 0, _boxTexture);
+    	os.setEcts(_rnd.nextInt(10));
+    	os.setPosition(CAMERA_WIDTH, _jhonyY + _jhonySprite.getHeight() - os.getHeight());
+    	_obstacles.add(os);
+    	_scene.attachChild(os);
+    }
+    
+    Iterator<ObstacleSprite> it = _obstacles.iterator();
+    while (it.hasNext()) {
+    	
+    	ObstacleSprite os = it.next();
+    	
+    	os.setPosition(os.getX() - 5 * 30 * secondsSinceLastLoop, os.getY());
+    	
+
+    	if (os.getX() < 0) {
+    		it.remove();
+    		_scene.detachChild(os);
+    	}
+    	else if (os.collidesWith(_jhonySprite)) {
+    		if (os.getEcts() < 0) Log.d("Jhony", "Game Over");
+    		else {
+    			
+    			_score += os.getEcts();
+    			_scoreText.setText("Creditos ECTS: " + _score);
+    			it.remove();
+    			_scene.detachChild(os);
+    		}
+    	}
+    	
+    }
+    
  // Actualizar contador para mover las cajas.
+    /*
     _boxSecondsPassed += secondsSinceLastLoop;
     _generateBoxSecondsPassed += secondsSinceLastLoop;
     
@@ -257,7 +325,7 @@ public class JhonyActivity extends BaseGameActivity
     {
       _boxSecondsPassed = 0.0f;
       for (Sprite s: _boxes)
-        s.setPosition(s.getX() - BOX_DISP, s.getY());
+        s.setPosition(s.getX() - 150 * secondsSinceLastLoop, s.getY());
     }
     
     // Eliminar cajas fuera de la imagen.
@@ -277,7 +345,7 @@ public class JhonyActivity extends BaseGameActivity
       int n = (int)indexToRemove.pop();
       _scene.detachChild(_boxes.get(n) );
       _boxes.remove(n);
-    }
+    }*/
   }
 
   // Método de IUpdateHandler
