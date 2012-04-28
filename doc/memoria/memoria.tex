@@ -95,24 +95,136 @@ Felipe Terriza García-Muñoz}
 \section{Sobre Android y las tecnologías utilizadas}
 \subsection{Android}
 \subsubsection{Estructura de la aplicación}
-aplicación = Manifiesto + Recursos + código
+Aplicación = Manifiesto + Recursos + código
+% AUMENTAR AQUÍ CON LO QUE HAGA FELIPE
 
-\subsubsection{Andengine}
-En AndEngine se usa una terminología propia, explico aquí los conceptos más básicos
+\subsection{Andengine}
+\subsubsection{Introducción}
+Smartphones, videojuegos, Android; son palabras que están en pleno
+auge. Los smartphones son cada vez más potentes, con pantallas cada
+vez mayores y de mayor definición; de modo que podemos disfrutar en
+ellos de contenidos audiovisuales más y más pujantes. Unido esto a
+un sistema operativo multifunción y completamente escalable como es
+Android, obtenemos un entorno atractivo, actual y prometedor. Si
+dentro de este entorno nos centramos en los videojuegos, nos
+encontramos con Andengine.
 
-    BaseGameActivity: El BaseGameActivity es la raiz del juego, que contiene el motor y crea la vista donde se va a dibujar todo. Hay siempre exactamente un solo Engine por cada BaseGameActivity.
-    Engine: El Engine es el motor interno del juego, se encarga de ir dibujando en pantalla y actualizando objetos en la escena, que contiene todo el contenido que tu juego lleva. Normalmente hay una escena por por Engine, a menos que vayas a usar un SplitScreenEngines.
-    IResolutionPolicy: Una implementacion de IResolutionPolicy interface es parte del EngineOptions. Te hace abstraerte de la resolución del terminal, tú trabajas para una resolución y el AndEngine se encarga del resto.
-    Camera: Un objeto Camera define el rectangulo visible actualmente de la escena actual, no tiene porqué ser la escena completa. Normalmente hay una cámara por escena. Hay subclases específicas que permiten hacer zoom y mover la cámara suavemente.
-    Scene: La clase Scene es el contenedor para todos los objetos que se van a dibujar en la escena. Una escena puede tener Layers, que son capas para ordenar objetos. Hay subclases de la Scene como CameraScene/HUD/MenuScene que tienen comportamientos específicos.
-    Entity: Una entidad es un objeto que puede ser dibujado, como Imagenes, rectángulos, Texto, Líneas. Una entidad tiene posición/rotación/zoom/color...
-    Texture: Una textura es una imagen que se guarda en memoria. En Android, las imágenes deben ser una potencia de 2.
-    ITextureSource: Una implementacion de ITextureSource-interface se encarga de cargar una imagen en una posición en la textura.
-    TextureRegion: Una TextureRegion define un rectangulo en una imagen. Las TextureRegion se usan por Sprites para usar una imagen grande en la que guardamos muchas imagenes pequeñicas.
-    PhysicsConnector: Motor de físicas integrado en el Engine
+Andengine es un framework utilizado como motor de juegos para Android. En
+realidad utiliza una implementación 2D de OpenGl. Su
+finalidad, como la de todos los frameworks, es optimizar el
+esfuerzo del desarrollador ofreciéndonos una buena base desde donde
+comenzar a crear nuestra propia aplicación.
 
+AndEndgine se distribuye bajo licencia LGPL. Al desarrollar bajo LGPL se tiene la opción de elegir si el
+programa final se licenciará como GPL, LGPL u otras licencias no
+libres.
 
-\section{Introducción.}
+Ventajas de LGPL
+\begin{itemize}
+\item Si en el desarrollo de un producto se utiliza código fuente
+  licenciado bajo GPL o LGPL, no es obligatorio licenciar dicho
+  producto final bajo dichas licencias.
+\item LGPL es menos restrictiva que la licencia GPL, ya que sólo se
+  ocupa en impedir el realizar versiones comerciales del producto
+  licenciado bajo LGPL.
+\item LGPL permite realizar versiones comerciales de un
+  producto final que contenga como herramienta adicional un programa
+  LGPL. Por lo tanto, LGPL puede ser utilizada o enlazada con software
+  propietario.
+\item LGPL exige registrar todos los cambios realizados por terceros,
+  a manera de no afectar la reputación del autor original del
+  software.
+\end{itemize}
+Desventajas de LGPL:
+\begin{itemize}
+\item Otras actividades que no sean copia, distribución o modificación
+  no están cubiertas en esta licencia y están fuera de su alcance.
+\end{itemize}
+
+Las facilidades que ofrece AndEngine a la hora de desarrollar un
+videojuego son de lo más completas, cuenta con:
+
+\begin{itemize}
+\item Motor. Es la pieza encargada de hacer que el juego
+  funcione. Dispone de un hilo que refresca la ventana cada x
+  milisegundos de tiempo. En cada tick se encarga de sincronizar los
+  refrescos en pantalla y actualizar la escena.
+
+\item Scene. La clase Scene es el contenedor de los Sprites que se
+  deben visualizar en pantalla. Las escenas pueden tener capas
+  (Layers) y entidades (Entities). Podemos encontrarnos también con
+  sprites estáticos en la pantalla que servirán para visualizar menús,
+  puntuaciones, energía, etc escenas compuestas por capas y entidades.
+
+\item Texturas. Son imágenes en la memoria. Estas
+  imágenes serán utilizadas para visualizar sprites o fondos. Por
+  ello, en el momento de desarrollar siempre hay que tener en mente
+  que por una parte se gestiona la información lógica de los objetos y
+  por otra parte el aspecto visual que tiene o la textura.
+
+\item Sprites. Son los objetos que se visualizan en el
+  juego y en la mayoría de los casos son interactivos o
+  animados. Existen varios tipos de sprites: titles en el que el juego
+  tiene forma matricial, animados en los que el sprite dispondrá de
+  varias imágenes o fotogramas o de background que se utilizarán para
+  pintar fondos.
+
+\item Física, motor físico del juego.
+\item Detección de colisiones.
+\item Música y efectos de sonido.También es posible reproducir
+  ficheros de tipo sonido. Los formatos que es capaz de soportar son:
+  AAC, MP3, Ogg, MIDI y WAV. Sin embargo, mediante una expansión es
+  posible reproducir formatos de tipo trackers: MOD, S3M, IT, etc.
+  Igualmente, es posible controlar características y eventos de la
+  reproducción como subir y bajar el volumen, repetir el sonido,
+  conocer si se está reproduciendo, situarse en una posición concreta
+  del audio y algunas funciones más.
+
+\end{itemize}
+
+\subsubsection{Conceptos básicos}
+A continuación describimos unos conceptos básicos necesarios para la
+mejor comprensión del funcionamiento y desarrollo con AndEngine.
+
+\begin{itemize}
+\item \textbf{BaseGameActivity:} El BaseGameActivity es la raiz del
+  juego, que contiene el motor y crea la vista donde se va a dibujar
+  todo. Hay siempre exactamente un solo Engine por cada
+  BaseGameActivity.
+\item \textbf{Engine:} El Engine es el motor interno del juego, se
+  encarga de ir dibujando en pantalla y actualizando objetos en la
+  escena, que contiene todo el contenido que tu juego
+  lleva. Normalmente hay una escena por por Engine, a menos que vayas
+  a usar un SplitScreenEngines.
+\item \textbf{IResolutionPolicy:} Una implementacion de
+  IResolutionPolicy interface es parte del EngineOptions. Te hace
+  abstraerte de la resolución del terminal, tú trabajas para una
+  resolución y el AndEngine se encarga del resto.
+\item \textbf{Camera:} Un objeto Camera define el rectangulo visible
+  actualmente de la escena actual, no tiene porqué ser la escena
+  completa. Normalmente hay una cámara por escena. Hay subclases
+  específicas que permiten hacer zoom y mover la cámara suavemente.
+\item \textbf{Scene:} La clase Scene es el contenedor para todos los
+  objetos que se van a dibujar en la escena. Una escena puede tener
+  Layers, que son capas para ordenar objetos. Hay subclases de la
+  Scene como CameraScene/HUD/MenuScene que tienen comportamientos
+  específicos.
+\item \textbf{Entity:} Una entidad es un objeto que puede ser
+  dibujado, como Imagenes, rectángulos, Texto, Líneas. Una entidad
+  tiene posición/rotación/zoom/color...
+\item \textbf{Texture:} Una textura es una imagen que se guarda en
+  memoria. En Android, las imágenes deben ser una potencia de 2.
+\item \textbf{ITextureSource:} Una implementacion de
+  ITextureSource-interface se encarga de cargar una imagen en una
+  posición en la textura.
+\item \textbf{TextureRegion:} Una TextureRegion define un rectangulo
+  en una imagen. Las TextureRegion se usan por Sprites para usar una
+  imagen grande en la que guardamos muchas imagenes pequeñicas.
+\item \textbf{PhysicsConnector:} Motor de físicas integrado en el Engine
+\end{itemize}
+
+%integración en el entorno de desarrollo
+
 
 \section{Desarrollo realizado}
 \section{Diseño del juego.}
