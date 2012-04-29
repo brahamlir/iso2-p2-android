@@ -9,6 +9,7 @@
             pagecolor=black, anchorcolor=black, breaklinks=true]{hyperref}
 \usepackage{times}
 \usepackage{eurosym}
+\usepackage{hyperref}
 
 \usepackage[pdftex]{graphicx}
 %\usepackage{rotating}
@@ -76,23 +77,23 @@
 
 \pdfimageresolution = 300
 
-\title{Práctica 2: \em Desarrollo de una aplicación en Android\\
-Ingeniería del Software 2011-12}
-\author{Manuel José Abaldea García-Pliego\\
-Luis Miguel Garcia-Muñoz Pérez\\
-Eduardo Monroy Martínez\\
-Felipe Terriza García-Muñoz}
-\date{}
+% \title{Práctica 2: {\em Game Design Document}\\Ingeniería del Software 2011-12}
+% \author{Manuel José Abaldea García-Pliego\\
+% Luis Miguel Garcia-Muñoz Pérez\\
+% Eduardo Monroy Martínez\\
+% Felipe Terriza García-Muñoz}
+% \date{}
 
 \begin{document}
 
-\input{portada}
+%\maketitle
 
-\newpage{\pagestyle{empty}\cleardoublepage}
+\input{portada}
+\newpage
 
 \tableofcontents
 
-\newpage{\pagestyle{empty}\cleardoublepage}
+\newpage
 
 \section{Sobre Android y las tecnologías utilizadas}
 \subsection{Android}
@@ -100,6 +101,8 @@ Felipe Terriza García-Muñoz}
 Aplicación = Manifiesto + Recursos + código
 % AUMENTAR AQUÍ CON LO QUE HAGA FELIPE
 
+
+\newpage
 \subsection{Andengine}
 \subsubsection{Introducción}
 Smartphones, videojuegos, Android; son palabras que están en pleno
@@ -121,7 +124,7 @@ AndEndgine se distribuye bajo licencia LGPL. Al desarrollar bajo LGPL se tiene l
 programa final se licenciará como GPL, LGPL u otras licencias no
 libres.
 
-Ventajas de LGPL
+Ventajas de LGPL:
 \begin{itemize}
 \item Si en el desarrollo de un producto se utiliza código fuente
   licenciado bajo GPL o LGPL, no es obligatorio licenciar dicho
@@ -137,12 +140,14 @@ Ventajas de LGPL
   a manera de no afectar la reputación del autor original del
   software.
 \end{itemize}
+
 Desventajas de LGPL:
 \begin{itemize}
 \item Otras actividades que no sean copia, distribución o modificación
   no están cubiertas en esta licencia y están fuera de su alcance.
 \end{itemize}
 
+\clearpage
 Las facilidades que ofrece AndEngine a la hora de desarrollar un
 videojuego son de lo más completas, cuenta con:
 
@@ -221,97 +226,303 @@ mejor comprensión del funcionamiento y desarrollo con AndEngine.
   posición en la textura.
 \item \textbf{TextureRegion:} Una TextureRegion define un rectangulo
   en una imagen. Las TextureRegion se usan por Sprites para usar una
-  imagen grande en la que guardamos muchas imagenes pequeñicas.
+  imagen grande en la que guardamos muchas imagenes pequeñas.
 \item \textbf{PhysicsConnector:} Motor de físicas integrado en el Engine
 \end{itemize}
 
-%integración en el entorno de desarrollo
+\section{Entorno de desarrollo}
+Para desarrollar nuestra aplicación se ha optado por utilizar
+Eclipse. La integración de las herramientas tanto de Android como de
+AndEngine es sencilla, completa y está bien documentada.
 
+Partiendo de tener Eclipse bien instalado en el sistema, nos hará
+falta el SDK de Android, disponible en la página de desarrolladores,
+área de descargas, este es el \href{
+  http://developer.android.com/sdk/index.html}{link}.
 
-\section{Desarrollo realizado}
-\section{Diseño del juego.}
+Ahora es necesario configurar el plugin ADT en Eclipse. Desde Help =>
+Install new software añadimos el repositorio:
+\begin{verbatim}
+https://dl-ssl.google.com/android/eclipse/
+\end{verbatim}
 
-El juego consistirá en el recorrido de un personaje el cual representa a un
-alumno de Informática. Este se desplaza corriendo a través del escenario, que
-representa la {\em carrera} que está haciendo. A lo largo de su recorrido
-deberá recolectar créditos ECTS (representados por libros para estudiar y otros
-útiles escolares) y también se encontrará con obstáculos que tendrá que
-esquivar saltando o agachándose, dependiendo del obstáculo.
+%\begin{figure}[h!]
+\includegraphics[width = 8 cm]{img/1.jpg}
+\includegraphics[width = 8 cm]{img/2.jpg}
+%\end{figure}
 
-El estilo de juego es muy parecido a otros juegos como {\em Line Runner} o {\em
-BIT.TRIP RUNNER}.
+Para configurar ADT desde Windows => Preferences seleccionamos Android
+en el panel izquierdo. Aquí debemos indicar la localización del SDK
+que nos hemos descargado antes.
+
+%\begin{figure}[h!]
+\includegraphics[width = 7 cm]{img/3.jpg}
+\includegraphics[width = 10 cm]{img/4.jpg}
+%\end{figure}
 
 \clearpage
+Abriendo el SDK Android Manager podremos instalar diferentes APIs
+según la versión de Android sobre la que queramos trabajar.
 
-\subsection{Características.}
+%\begin{figure}[h!]
+\begin{center}
+  \includegraphics[width = 10 cm]{img/5.jpg}
+
+  \includegraphics[width = 14 cm]{img/6.jpg}
+\end{center}
+%\end{figure}
+
+\clearpage
+Si vamos a realizar pruebas sobre una máquina virtual de Android
+debemos crearla primero.
+
+%\begin{figure}[h!]
+\begin{center}
+
+\includegraphics[width = 8 cm]{img/7.jpg}
+
+\includegraphics[width = 12 cm]{img/8.jpg}
+
+\includegraphics[width = 10 cm]{img/9.jpg}
+\end{center}
+%\end{figure}
+
+
+Para empezar a trabajar con Andengine debemos crear un proyecto
+Android nuevo dentro de eclipse, crear una carpeta libs en el
+directorio del proyecto e incluir andengine.jar (disponible en la
+página principal de Andengine)
+
+\begin{center}
+  \includegraphics[width = 16 cm]{img/10.jpg}
+\end{center}
+
+\clearpage
+\subsection{Primer contacto}
+Vamos a ver un primer ejemplo para AndEngine.
+
+La clase principal para nuestra aplicación es
+\emph{BaseGameActivity}. De esta clase debe heredar nuestra clase principal:
+
+\begin{verbatim}
+public class PracIso2 extends BaseGameActivity {
+\end{verbatim}
+
+dentro de esta clase tendremos nuestro \emph{Engine}, encargado de
+crear el \emph{SurfaceView}, dentro de este \emph{SurfaceView} irá
+dibujado el \emph{Engine}. Para cada \emph{BaseGameActivity} tendremos
+un \emph{Engine}
+
+Al heredar de \emph{BaseGameActivity} debemos implementar:
 
 \begin{itemize}
+\item \emph{onLoadEngine} Encargado de iniciar el engine del juego.
+\item \emph{onLoadResources} Reserva memoria para los recursos, imágenes, música,
+  fuentes, etc.
+\item \emph{onLoadScene} Carga los recursos en la scene.
+\item \emph{onLoadComplete} Código a ejecutar una vez terminado los anteriores.
+\end{itemize}
+{\tiny
+\begin{verbatim}
+public class PracIso2 extends BaseGameActivity {
+ private static final int CAMERA_WIDTH = 800;
+ private static final int CAMERA_HEIGHT = 480;
 
+ @Override
+ public Engine onLoadEngine() {
+  this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+  Engine engine = new Engine(new EngineOptions(true,
+        ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH,
+            CAMERA_HEIGHT), camera).setNeedsSound(true));
+  return engine
+ }
+
+ @Override
+ public void onLoadResources() {
+ }
+
+ @Override
+ public Scene onLoadScene() {
+  _scene = new Scene();
+  return scene;
+ }
+
+ @Override
+ public void onLoadComplete() {
+ }
+}
+
+\end{verbatim}
+}
+
+Como vemos en el código, el primer paso es crear una cámara con la
+resolución que queramos darle al juego. Esta cámara es el atributo
+principal a la hora de crear el engine. También le debemos indicar
+otras opciones como orientación de la pantalla.
+Este engine creado hará que el juego se desarrolle en pequeños pasos
+discretos de tiempo. El Engine se encarga de sincronizar los refrescos
+en pantalla y de actualizar la escena. Recordemos que cuando nos
+referimos a escena no es solamente el apartado gráfico sino todo el
+contenido del juego.
+
+\begin{verbatim}
+ public Engine onLoadEngine() {
+  this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+  Engine engine = new Engine(new EngineOptions(true,
+                  ScreenOrientation.LANDSCAPE,
+                  new RatioResolutionPolicy(CAMERA_WIDTH,
+                  CAMERA_HEIGHT), camera).setNeedsSound(true));
+  return engine
+ }
+\end{verbatim}
+
+En \emph{onLoadScene} reservamos recursos para una scene vacía. La
+scene será el contenedor de todos los objetos. La escena tiene una
+cantidad específica de Layers (capas) y estos Layers tienen una
+cantidad (fija o dinámica) de entidades (Entity). Por ejemplo para
+añadir un color al fondo sería:
+
+\begin{verbatim}
+ public Scene onLoadScene() {
+  _scene = new Scene();
+  _scene.setBackground(new ColorBackground(0f,1f,0f));
+  return _scene;
+ }
+\end{verbatim}
+
+Para incluir algo más en esta toma de contacto veremos como mostrar
+los scripts:
+
+\begin{verbatim}
+@Override
+  public void onLoadResources() {
+    this.mTexture =
+      new Texture(32, 32, TextureOptions.BILINEAR);
+    this.mTextureRegion =
+      TextureRegionFactory.createFromAsset(
+        this.mTexture, this, "image.png", 0, 0);
+    this.mEngine.getTextureManager().loadTexture(this.mTexture);
+  }
+
+  @Override
+  public Scene onLoadScene() {
+    _scene = new Scene();
+    scene.setBackground(new ColorBackground(0f, 1f, 0f));
+
+    _sample_sprite = new Sprite(344, 224, this.mTextureRegion);
+    _scene.getLastChild().attachChild(_sample_sprite);
+
+    return _scene;
+  }
+\end{verbatim}
+
+\clearpage
+Lo primero es definir un objeto Texture. Con esto el posicionamiento
+de la imagen en la textura, al cargarla en memoria, será manual.
+La textura debe tener las mismas dimensiones que la imagen a cargar,
+en este caso 32x32.
+
+Las imágenes a utilizar se buscaran por defecto en "assets", de modo
+que la ruta es relativa a este directorio. En el ejemplo utilizamos
+nuestra ``image.png'' cuando creamos el TextureRegion.
+
+En \emph{onLoadScene} creamos una escena con una sola capa, en el
+constructor del objeto Scene establecemos el número de capas que
+queremos que tenga.
+
+Lo que hemos echo ha sido crear un Sprite pasándole en su constructor la posición que
+queremos que tenga en la escena [400, 240] y el TextureRegion hace
+referencia a la imagen cargada que queremos que tenga este Sprite.
+
+Una vez tenemos el Sprite creado, lo añadimos a la escena del juego.
+
+El método de instancia getLastChild de Scene devuelve la capa superior
+de la escena. Para obtener la capa que está abajo del todo
+utilizaremos el método de instancia getFirstChild de Scene. En este
+ejemplo, nuestra escena la hemos creado sólo con una capa, así que
+esta será la que está arriba del todo y la que está abajo del todo.
+
+Esto sería un ejemplo simple. Uno de los puntos fuertes de AndEngine
+es su documentación basada en ejemplos, podemos descargarnos un
+repositorio completo con las últimas versiones desde su página oficial
+\href{http://code.google.com/p/andengineexamples}{AndEngineExamples}.
+
+
+\section{Aplicación realizada}%Desarrollo realizado}
+\subsection{Idea inicial.}
+La idea inicial de la aplicación es realizar un videojuego atractivo
+por su simplicidad y el toque gracioso referente a la carrera de
+ingeniería informática.
+En un principio se barajaron barios tipos de variantes dentro del
+género elegido (plataformas) entre un casual/lineal, como ha sido
+elegido) o un jumping. Tras probar varios juegos de este tipo los miembros del equipo
+decidieron por unanimidad el tipo lineal por ser más entretenido y
+tener mayor jugabilidad.
+Con respecto a la temática se pretende asociar al personaje con un
+alumno de la escuela superior de informática, debiendo ganarse los
+créditos ECTS (puntuación) con la finalidad de terminar la carrera. En
+el juego se incluirán elementos asociados a la escuela tales
+como entornos o personajes afines a la carrera como profesores, que te
+dificultarán el obtener los preciados créditos ECTS. La finalidad es
+dar al juego un componente gracioso que aumente su atractivo.
+
+\clearpage
+\subsection{Resumen de características.}
+\begin{itemize}
   \item {\bf Genero.}
-
-    Plataformas/casual.
-
+    El juego realizado es un plataformas/casual inspirado en otros
+títulos como {\em Line Runner} o {\em BIT.TRIP RUNNER}.
   \item {\bf Jugadores.}
-
     El juego es para un jugador por dispositivo y sin juego en red.
-
   \item {\bf Historia.}
-
     El personaje debe conseguir el máximo de créditos posible para terminar su
     carrera satisfactoriamente y encontrar un trabajo decente en alguna
     factoría de software.
-
   %\input{bocetos}
   %\input{lookandfeel}
-
   \item {\bf Interfaz.}
-
-    La interacción con el jugador se realiza a través de dos botones que
-    aparecen en la pantalla: uno para saltar y otro para agacharse.
-
+    La interacción con el jugador se realiza a través de la pantalla
+    táctil. Una pulsación rápida para saltar y una pulsación más
+    prolongada para un salto mayor. La pulsación es detectada en
+    cualquier punto de la pantalla.
   \item {\bf Objetivos.}
-
     El jugador deberá ganar el máximo de créditos posible. No hay un final
     definido, es una metáfora sobre lo interminable que se hace la carrera. Se
     plantea poder subir los créditos a un servidor, para poder competir con
     otros jugadores.
-
   \item {\bf Reglas.}
-
-    Simplemente hay que esquivar los obstáculos o bien saltando o bien
-    agachándose. También hay intentar coger los objetos que aportan créditos.
-
-  %\input{características}
-
+    Simplemente hay que esquivar los obstáculos e intentar coger los
+    objetos que aportan créditos.
   \item {\bf Gameplay.}
-
     El juego es de naturaleza casual, con una interacción sencilla con el
     usuario.
-
   \item {\bf Diseño de niveles.}
-
     El escenario se genera aleatoriamente a media que el personaje avanza. Se
     plantea también aumentar la complejidad según la puntuación alcanzada.
-
   \item {\bf Requerimientos técnicos.}
-
     Cualquier dispositivo con sistema operativo Android.
-
 \end{itemize}
 
-\section{Marketing.}
+\subsection{Preview de la primera beta}
+En esta primera versión los fondos son los proporcionados por los
+ejemplos de AndEngine a excepción del suelo.
+%\begin{figure}[h!]
+\begin{center}
+  \includegraphics[width = 10 cm]{img/11.jpg}
 
+  \includegraphics[width = 10 cm]{img/12.jpg}
+\end{center}
+%\end{figure}
+
+
+\section{Marketing.}
 Principalmente, se hará publicidad a través de las redes sociales (facebook,
 tuenti, twitter, ...). Se plantea tambien ofrecer ofertas (mitad de precio,
 gratis durante unas horas, ...) y anunciarlo a través de otros hipotéticos
 juegos hechos por la empresa.
 
-\clearpage
-
 \section{Diagramas.}
-
 \subsection{Casos de uso.}
-
 \begin{figure}[h]
 \centering
 \includegraphics[width = 10 cm]{casos_de_uso_(menu).eps}
@@ -341,10 +552,13 @@ Finalizar el juego añadiendo los elementos que faltan:
 Añadir a este documento los diagramas que faltan.
 
 
+\section{Fuentes}
+\href{http://developer.android.com/index.html}{Android Developer}
 
+\href{http://www.andengine.org/}{AndEngine}
 
+\href{https://github.com/nicolasgramlich/AndEngine}{AndEngine github repository}
 
-\section{fuentes}
-http://droideando.blogspot.com.es/2011/03/introduccion-andengine-parte-i.html
+\href{http://droideando.blogspot.com.es}{Droideando blogspot}
 
 \end{document}
