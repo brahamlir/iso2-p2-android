@@ -2,13 +2,9 @@ package iso2.curso11_12.grupo7.jhony;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.Stack;
-import java.util.Vector;
 
 import org.anddev.andengine.audio.sound.Sound;
 import org.anddev.andengine.audio.sound.SoundFactory;
@@ -39,6 +35,14 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.Log;
 
+/*! \mainpage Grupo 3: Jhony
+*
+* Documentación del proyecto desarrollado para la asignatura de 
+* Ingeniería del Software 2 durante el curso 2011-2012 en la 
+* Escuela Superior de Informática de Ciudad Real.
+*
+*/
+
 
 /** Actividad que representa el juego. */
 public class JhonyActivity extends BaseGameActivity
@@ -49,27 +53,12 @@ public class JhonyActivity extends BaseGameActivity
   
   /** Altura de la cámara. */
   private static final int CAMERA_HEIGHT = 480;
-
-  /** Intervalos en los que avanzan las cajas, en píxeles. */
-  private static final int BOX_DISP = 3;
-  
-  /** Intervalos de tiempo en los que avanzan las cajas. */
-  private static final float MIN_BOX_INTERVAL = 0.05f;
-  
-  /** Intervalos de tiempo en los que se generan las cajas. */
-  private static final float MIN_GENERATE_INTERVAL = 2.0f;
   
   /** Velocidad parallax */
   private static final float PARALLAX_SPEED = 70f;
   
   /** Escena. */
   Scene _scene;
-  
-  /** Contador de tiempo para mover las cajas. */
-  private float _boxSecondsPassed;
-  
-  /** Contador de tiempo para generar las cajas. */
-  private float _generateBoxSecondsPassed;
   
   /** Textura para el fondo más profundo. */
   private TextureRegion _backgroundBackTexture;
@@ -88,9 +77,6 @@ public class JhonyActivity extends BaseGameActivity
   
   /** Textura para los ECTS. */
   private TextureRegion _ectsTexture;
-  
-  /** Lista de cajas a esquivar. */
-  private List<Sprite> _boxes;
   
   /** Generador de números aleagorios. */
   private Random _rnd;
@@ -150,8 +136,6 @@ public class JhonyActivity extends BaseGameActivity
   @Override
   public Engine onLoadEngine()
   {
-    _boxSecondsPassed = 0.0f;
-    _generateBoxSecondsPassed = 0.0f;
     _screenPressed = false;
     _screenJustReleased = false;
     _pressionTime = 0;
@@ -161,7 +145,6 @@ public class JhonyActivity extends BaseGameActivity
     _timeBox = 10;
     _contBox = MINBOX + _timeBox * _rnd.nextFloat();
     _obstacles = new ArrayList<ObstacleSprite>();
-    _boxes = Collections.synchronizedList(new LinkedList<Sprite>());
     
     Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
@@ -294,6 +277,102 @@ public class JhonyActivity extends BaseGameActivity
   @Override
   public void onLoadComplete() {}
   
+  /** Método que actualiza la posición del jugador. */
+  public void moveJhony(float secondsSinceLastLoop) {
+	  _jhonySprite.setPosition(_jhonyX, _jhonyY - _jhony.updateHeight(secondsSinceLastLoop));
+		
+		if (!_jhony.isJumping()) {
+			
+			if (!_jhonyLanded) {
+				
+				_jhonySprite.animate(new long[] {75, 75, 75, 75, 75, 75, 75, 75}, 0, 7, true);
+				_jhonyLanded = true;;	
+			}
+			
+			if (_screenJustReleased) {
+				
+				_jhonySprite.animate(new long[] {100, 100}, 8, 9, true);
+	    		_jhony.jump(_pressionTime * 100);
+	    		_pressionTime = 0;
+	    		_screenJustReleased = false;
+	    		_jhonyLanded = false;
+			}
+		}
+		
+	    if (_screenPressed)
+	    	_pressionTime += secondsSinceLastLoop;  
+  }
+  
+  /** Método que controla la generación de obstaculos. */
+  public void generateObstacles(float secondsSinceLastLoop)
+  {
+	    _timeBox = 5f - _score / 50f;
+	    if (_timeBox < 0)_timeBox = 0;
+	    
+	    _contBox -= secondsSinceLastLoop;
+	    if (_contBox <= 0) {
+	        _contBox = MINBOX + _timeBox * _rnd.nextFloat();
+	    	
+	        Log.d("ContBox", "ContBox = " + _contBox);
+	        
+	        ObstacleSprite os;
+	        float obstacleY;
+	        
+	        if (_rnd.nextInt(2) == 0) {
+	        	
+	        	os = new ObstacleSprite(0, 0, _boxTexture, -1);
+	        	obstacleY = _jhonyY + _jhonySprite.getHeight() - os.getHeight();
+	        }
+	        else {
+	        	
+	        	os = new ObstacleSprite(0, 0, _ectsTexture, 1 + _rnd.nextInt(10)); 
+	        	obstacleY = _jhonyY + _jhonySprite.getHeight() - os.getHeight() - (100 * _rnd.nextInt(3));
+	        }
+	        
+	        Log.d("Obstacle", "ObstacleY = " + obstacleY);
+	        os.setPosition(CAMERA_WIDTH, obstacleY);
+	        _obstacles.add(os);
+	        _scene.attachChild(os);
+	    }
+	  
+  }
+
+  /** Metodo que actualiza la posición de los obstaculos y comprueba colisiones. */
+  public void moveObstacles(float secondsSinceLastLoop)
+  {
+	  Iterator<ObstacleSprite> it = _obstacles.iterator();
+	    while (it.hasNext()) {
+	    	
+	    	ObstacleSprite os = it.next();
+	    	
+	    	os.setPosition(os.getX() - 5 * PARALLAX_SPEED * secondsSinceLastLoop, os.getY());
+	    	
+
+	    	if (os.getX() < 0) {
+	    		it.remove();
+	    		_scene.detachChild(os);
+	    	}
+	    	else if (os.collidesWith(_jhonySprite)) {
+	    		if (os.getEcts() < 0) {
+	    			
+	    			Log.d("Jhony", "Game Over");
+	    			_score = 0;
+	    			_scoreText.setText("Creditos ECTS: " + _score);
+	    		}
+	    		else {
+	    			
+	    			_score += os.getEcts();
+	    			_scoreText.setText("Creditos ECTS: " + _score);
+	    			it.remove();
+	    			_scene.detachChild(os);
+	    			_soundAprendo.play();
+	    		}
+	    	}
+	    	
+	    }
+	    
+  }
+  
   // Método de IUpdateHandler
   /** Método que se ejecuta en cada iteración del bucle de juego. */
   @Override
@@ -301,90 +380,12 @@ public class JhonyActivity extends BaseGameActivity
   {
 	  
     // Jhony
-	_jhonySprite.setPosition(_jhonyX, _jhonyY - _jhony.updateHeight(secondsSinceLastLoop));
+	moveJhony(secondsSinceLastLoop);
+    
+	// Obstacles
+	generateObstacles(secondsSinceLastLoop);
 	
-	if (!_jhony.isJumping()) {
-		
-		if (!_jhonyLanded) {
-			
-			_jhonySprite.animate(new long[] {75, 75, 75, 75, 75, 75, 75, 75}, 0, 7, true);
-			_jhonyLanded = true;;	
-		}
-		
-		if (_screenJustReleased) {
-			
-			_jhonySprite.animate(new long[] {100, 100}, 8, 9, true);
-    		_jhony.jump(_pressionTime * 100);
-    		_pressionTime = 0;
-    		_screenJustReleased = false;
-    		_jhonyLanded = false;
-		}
-	}
-	
-    if (_screenPressed)
-    	_pressionTime += secondsSinceLastLoop;
-    
-    _timeBox = 5f - _score / 50f;
-    if (_timeBox < 0)_timeBox = 0;
-    
-    _contBox -= secondsSinceLastLoop;
-    if (_contBox <= 0) {
-        _contBox = MINBOX + _timeBox * _rnd.nextFloat();
-    	
-        Log.d("ContBox", "ContBox = " + _contBox);
-        
-        ObstacleSprite os;
-        float obstacleY;
-        
-        if (_rnd.nextInt(2) == 0) {
-        	
-        	os = new ObstacleSprite(0, 0, _boxTexture);
-        	os.setEcts(-1);
-        	obstacleY = _jhonyY + _jhonySprite.getHeight() - os.getHeight();
-        }
-        else {
-        	
-        	os = new ObstacleSprite(0, 0, _ectsTexture); 
-        	os.setEcts(1 + _rnd.nextInt(10));
-        	obstacleY = _jhonyY + _jhonySprite.getHeight() - os.getHeight() - (100 * _rnd.nextInt(3));
-        }
-        
-        Log.d("Obstacle", "ObstacleY = " + obstacleY);
-        os.setPosition(CAMERA_WIDTH, obstacleY);
-        _obstacles.add(os);
-        _scene.attachChild(os);
-    }
-    
-    Iterator<ObstacleSprite> it = _obstacles.iterator();
-    while (it.hasNext()) {
-    	
-    	ObstacleSprite os = it.next();
-    	
-    	os.setPosition(os.getX() - 5 * PARALLAX_SPEED * secondsSinceLastLoop, os.getY());
-    	
-
-    	if (os.getX() < 0) {
-    		it.remove();
-    		_scene.detachChild(os);
-    	}
-    	else if (os.collidesWith(_jhonySprite)) {
-    		if (os.getEcts() < 0) {
-    			
-    			Log.d("Jhony", "Game Over");
-    			_score = 0;
-    			_scoreText.setText("Creditos ECTS: " + _score);
-    		}
-    		else {
-    			
-    			_score += os.getEcts();
-    			_scoreText.setText("Creditos ECTS: " + _score);
-    			it.remove();
-    			_scene.detachChild(os);
-    			_soundAprendo.play();
-    		}
-    	}
-    	
-    }
+    moveObstacles(secondsSinceLastLoop);
     
   }
 

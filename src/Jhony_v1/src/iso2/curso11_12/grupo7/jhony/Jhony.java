@@ -1,5 +1,7 @@
 package iso2.curso11_12.grupo7.jhony;
 
+
+/** Clase para separar la lógica del personaje de la interfaz. */
 public class Jhony {
 	
 	private static final float GRAVITY = 9.8f;	// Fuerza gravedad
@@ -10,6 +12,7 @@ public class Jhony {
 	private float _speed;		// Velocidad vertical a la que se mueve Jhony
 	private boolean _jumping;	// Indica si Jhony esta o no saltando
 	
+	/** Método constructor */
 	public Jhony() {
 		
 		setHeight(0);
@@ -17,7 +20,8 @@ public class Jhony {
 		setJumping(false);
 	}
 	
-	void jump(float speed) {
+	/** Inicializa la velocidad y cambia el estado para saltar. */
+	public void jump(float speed) {
 		
 		// Se puede saltar a dos alturas
 		if (speed < 0.25f * MAXSPEED)
@@ -28,14 +32,16 @@ public class Jhony {
 		setJumping(true);
 	}
 	
-	void land() {
+	/** Aterriza al personaje. */
+	private void land() {
 		
 		setHeight(0);
 		setSpeed(0);
 		setJumping(false);
 	}
 	
-	float updateHeight(float time0) {
+	/** Actualiza la altura en función del tiempo transcurrido. */
+	public float updateHeight(float time0) {
 		
 		float time = time0 * SPEEDUP;
 		
@@ -51,10 +57,21 @@ public class Jhony {
 		return getHeight();
 	}
 	
-	void setHeight(float height) { _height = height; }
-	float getHeight() { return _height; }
-	void setSpeed(float speed) { _speed = speed; }
-	float getSpeed() { return _speed; }
-	void setJumping(boolean jumping) { _jumping = jumping; }
-	boolean isJumping() { return _jumping; }
+	/** Fijar altura. */
+	private void setHeight(float height) { _height = height; }
+	
+	/** Devuelve la altura a la que se encuentra el personaje. */
+	private float getHeight() { return _height; }
+	
+	/** Fijar la velocidad del salto. */
+	private void setSpeed(float speed) { _speed = speed; }
+	
+	/** Devuelve la velocidad del salto. */
+	private float getSpeed() { return _speed; }
+	
+	/** Cambia el estado de salto. */
+	private void setJumping(boolean jumping) { _jumping = jumping; }
+	
+	/** Devuelve el estado del salto. */
+	public boolean isJumping() { return _jumping; }
 }
