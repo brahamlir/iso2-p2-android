@@ -1065,14 +1065,14 @@ ejemplos de AndEngine a excepción del suelo.
 %\end{figure}
 
 
-\section{Marketing.}
+\subsection{Marketing.}
 Principalmente, se hará publicidad a través de las redes sociales (facebook,
 tuenti, twitter, ...). Se plantea tambien ofrecer ofertas (mitad de precio,
 gratis durante unas horas, ...) y anunciarlo a través de otros hipotéticos
 juegos hechos por la empresa.
 
-\section{Diagramas.}
-\subsection{Casos de uso.}
+\subsection{Diagramas.}
+\subsubsection{Casos de uso.}
 \begin{figure}[h]
 \centering
 \includegraphics[width = 10 cm]{casos_de_uso_(menu).eps}
@@ -1100,6 +1100,198 @@ juegos hechos por la empresa.
 % \end{itemize}
 
 % Añadir a este documento los diagramas que faltan.
+
+
+
+
+
+
+
+\section{metodología: PUD + Programación extrema}
+
+-Intro
+
+
+Resumen de esto ------------------------------
+Valores
+
+Los Valores originales de la programación extrema son: simplicidad, comunicación, retroalimentación (feedback) y coraje. Un quinto valor, respeto, fue añadido en la segunda edición de Extreme Programming Explained. Los cinco valores se detallan a continuación:
+
+    Simplicidad:
+
+La simplicidad es la base de la programación extrema. Se simplifica el diseño para agilizar el desarrollo y facilitar el mantenimiento. Un diseño complejo del código junto a sucesivas modificaciones por parte de diferentes desarrolladores hacen que la complejidad aumente exponencialmente. Para mantener la simplicidad es necesaria la refactorización del código, ésta es la manera de mantener el código simple a medida que crece. También se aplica la simplicidad en la documentación, de esta manera el código debe comentarse en su justa medida, intentando eso sí que el código esté autodocumentado. Para ello se deben elegir adecuadamente los nombres de las variables, métodos y clases. Los nombres largos no decrementan la eficiencia del código ni el tiempo de desarrollo gracias a las herramientas de autocompletado y refactorización que existen actualmente. Aplicando la simplicidad junto con la autoría colectiva del código y la programación por parejas se asegura que cuanto más grande se haga el proyecto, todo el equipo conocerá más y mejor el sistema completo.
+
+    Comunicación:
+
+La comunicación se realiza de diferentes formas. Para los programadores el código comunica mejor cuanto más simple sea. Si el código es complejo hay que esforzarse para hacerlo inteligible. El código autodocumentado es más fiable que los comentarios ya que éstos últimos pronto quedan desfasados con el código a medida que es modificado. Debe comentarse sólo aquello que no va a variar, por ejemplo el objetivo de una clase o la funcionalidad de un método. Las pruebas unitarias son otra forma de comunicación ya que describen el diseño de las clases y los métodos al mostrar ejemplos concretos de como utilizar su funcionalidad. Los programadores se comunican constantemente gracias a la programación por parejas. La comunicación con el cliente es fluida ya que el cliente forma parte del equipo de desarrollo. El cliente decide qué características tienen prioridad y siempre debe estar disponible para solucionar dudas.
+
+    Retroalimentación (feedback):
+
+Al estar el cliente integrado en el proyecto, su opinión sobre el estado del proyecto se conoce en tiempo real. Al realizarse ciclos muy cortos tras los cuales se muestran resultados, se minimiza el tener que rehacer partes que no cumplen con los requisitos y ayuda a los programadores a centrarse en lo que es más importante. Considérense los problemas que derivan de tener ciclos muy largos. Meses de trabajo pueden tirarse por la borda debido a cambios en los criterios del cliente o malentendidos por parte del equipo de desarrollo. El código también es una fuente de retroalimentación gracias a las herramientas de desarrollo. Por ejemplo, las pruebas unitarias informan sobre el estado de salud del código. Ejecutar las pruebas unitarias frecuentemente permite descubrir fallos debidos a cambios recientes en el código.
+
+    Coraje o valentía:
+
+Muchas de las prácticas implican valentía. Una de ellas es siempre diseñar y programar para hoy y no para mañana. Esto es un esfuerzo para evitar empantanarse en el diseño y requerir demasiado tiempo y trabajo para implementar todo lo demás del proyecto. La valentía le permite a los desarrolladores que se sientan cómodos con reconstruir su código cuando sea necesario. Esto significa revisar el sistema existente y modificarlo si con ello los cambios futuros se implementaran mas fácilmente. Otro ejemplo de valentía es saber cuando desechar un código: valentía para quitar código fuente obsoleto, sin importar cuanto esfuerzo y tiempo se invirtió en crear ese código. Además, valentía significa persistencia: un programador puede permanecer sin avanzar en un problema complejo por un día entero, y luego lo resolverá rápidamente al día siguiente, sólo si es persistente.
+
+    Respeto:
+
+El respeto se manifiesta de varias formas. Los miembros del equipo se respetan los unos a otros, porque los programadores no pueden realizar cambios que hacen que las pruebas existentes fallen o que demore el trabajo de sus compañeros. Los miembros respetan su trabajo porque siempre están luchando por la alta calidad en el producto y buscando el diseño óptimo o más eficiente para la solución a través de la refactorización del código. Los miembros del equipo respetan el trabajo del resto no haciendo menos a otros, una mejor autoestima en el equipo y elevando el ritmo de producción en el equipo.
+
+----------------------------------------
+
+
+
+\subsection{Iteraciones de trabajo}
+\textbf{Iteración 0}
+16 Febrero Se establece la empresa SHURDROID S.L.
+Realizado:
+Por hacer: diseño del juego y elección de las herramientas de
+desarrollo
+
+\textbf{Iteración 1:}
+24 Febrero
+Realizado: Terminada la preproducción de juego
+Por hacer:
+\begin{itemize}
+\item Formación de los componentes en Android más AndEngine
+\item Primer Game Design Document
+\end{itemize}
+
+\textbf{Iteración 2:}
+2 Marzo
+Realizado: Terminada primera versión de Game Design Document
+Por hacer:
+\begin{itemize}
+\item Pendiente continuar con la formación sobre AndEngine
+\item Planificación de siguiente reunión con el supervisor
+\end{itemize}
+
+\textbf{Iteración 3:}
+8 Marzo
+Realizado: Reunión con el supervisor (profesor)
+Por hacer:
+\begin{itemize}
+\item Nueva reunión
+\item Tareas del 2 de marzo no terminadas
+\end{itemize}
+
+\textbf{Iteración 4:}
+18 Marzo
+Realizado: ejemplos de práctica
+Por hacer: continuar con la formación
+
+\textbf{Iteración 5:}
+27 Marzo
+Realizado: ejemplos de práctica
+Por hacer: continuar con la formación
+
+\textbf{Iteración 6:}
+10 Abril
+Realizado: ejemplos de práctica
+Por hacer: continuar con la formación
+
+\textbf{Iteración 7:}
+16 Abril
+Realizado: primera versión jugable
+Por hacer:
+\begin{itemize}
+\item Versión alpha para enseñar
+\item Siguiente iteración del GDD
+\item Reunión con el supervisor
+\end{itemize}
+
+\textbf{Iteración 8:}
+19 Abril
+Realizado:
+\begin{itemize}
+\item versión alpha
+\item siguiente iteración del gdd
+\item Reunión con el supervisor
+\end{itemize}
+Por hacer: Añadir cajas al juego.
+
+\textbf{Iteración 9:}
+22 Abril
+Realizado:
+\begin{itemize}
+\item Cajas añadidas.
+\item Añadido contador de puntuación.
+\end{itemize}
+Por hacer: terminar beta del juego
+
+\textbf{Iteración 10:}
+29 Abril
+Realizado: beta del juego. Se da por concluido el juego a mostrar en
+la presentación.
+Por hacer: recopilar documentación para la memoria.
+
+\textbf{Iteración 11:}
+30 Abril
+Realizado: entrega de la memoria.
+
+\subsection{Análisis crítico}
+El trabajo entre las iteraciones 0 y 1 se corresponde con la
+preproducción del juego. A partir de la iteración 1 comienza el
+desarrollo propiamente dicho.
+
+En la siguiente tabla se indica para cada iteración y el porcentaje de trabajo completado
+respecto a la previsión de la iteración anterior.
+
+
+
+\begin{table}[!ht]
+\begin{center}
+    \begin{tabular}[!ht]{|c||c|} \hline
+      \textbf{Iteración} & \textbf{Porcentaje realizado} \\ \hline
+      \textbf{2} & 65 \% \\ \hline
+      \textbf{3} & 60 \% \\ \hline
+      \textbf{4} & 25 \% \\ \hline
+      \textbf{5} & 30 \% \\ \hline
+      \textbf{6} & 40 \% \\ \hline
+      \textbf{7} & 100 \% \\ \hline
+      \textbf{8} & 100 \% \\ \hline
+      \textbf{9} & 110 \% \\ \hline
+      \textbf{10} & 100 \% \\ \hline
+      \textbf{11} & 100 \% \\ \hline
+    \end{tabular}
+\end{center}
+\end{table}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width = 10 cm]{grafica.eps}
+\caption{Gráfica}
+\end{figure}
+
+
+\section{Anexo: estudio de mercado}
+Perspectivas
+
+Fácil acceso al mercado, barato el acceso. Android como sistema y
+comunidad facilita el desarrollo.
+
+Mucha competencia
+
+Si no estás en el top ten no existes.
+
+Ley de Sturgeon 90\% de todo ES MIERDA
+
+Cierto paralelismo con la época de ora del software español. Con pocos
+recursos
+
+Muy premiadas la jugabilidad y la originalidad. Orientado a un mercado
+de jugadores casuales, con una interfaz fácil y que pueda jugarse
+pocos minutos.
+
+Se puede enfocar como un primer escalón en consolidad tu empresa como
+desarrolladora de juegos de otros tipos, como X-Box live, Steam o ser
+contratado por empresas mayores del mercado.
+
+Es decir, algo como un estudio de mercado viendo:
+qué competencia hay,
+ qué probabilidad se estima de que la empresa sobreviva,
+qué probabilidad hay de tener un gran éxito o si es más probable ir sobreviviendo entre la competencia, etc.
 
 
 \section{Fuentes}
