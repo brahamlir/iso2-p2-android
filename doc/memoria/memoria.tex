@@ -1108,37 +1108,111 @@ juegos hechos por la empresa.
 
 
 \section{metodología: PUD + Programación extrema}
+Para el desarrollo de esta aplicación se ha decidido usar eXtreme
+Programming (XP), pero XP es un proceso ágil de desarrollo
+software, no una metodología, de modo que nos hemos apoyado PUD
+dividiendo las fases de desarrollo en iteraciones.
 
--Intro
+EXtreme Progamming es considerado como el más destacado de los
+procesos ágiles de desarrollo software. La diferencia con las
+metodologías tradicionales radica en que el desarrollo ágil da más
+importancia a la adaptabilidad que en la previsibilidad.
 
+Una ventaja que nos ofrece XP es la adaptación a cambios de requisitos
+sobre la marcha, ya que se consideran como un aspecto natural,
+inevitable e incluso, en algunos casos, deseable dentro del desarrollo
+de proyectos. El objetivo es conseguir una mayor adaptación a los
+cambios de requisitos en cualquier punto de la vida del proyecto, con
+lo que se conseguirá una aproximación más realista que si se intenta
+definir todos los requisitos al comienzo del proyecto.
 
-Resumen de esto ------------------------------
-Valores
+XP se define por sus \emph{Valores}: \textbf{simplicidad,
+comunicación, retroalimentación, coraje y respeto}
+\begin{itemize}
+\item \textbf{Simplicidad}
+\end{itemize}
+La simplicidad es la base de la programación extrema. Simplificando el
+diseño se agilizará el desarrollo y se facilitará el mantenimiento.
 
-Los Valores originales de la programación extrema son: simplicidad, comunicación, retroalimentación (feedback) y coraje. Un quinto valor, respeto, fue añadido en la segunda edición de Extreme Programming Explained. Los cinco valores se detallan a continuación:
+Si diseño complejo del código unido pasa por una serie de
+modificaciones por parte de diferentes desarrolladores, esto ará que
+la complejidad aumente de forma exponencial. Para evitar esto y
+mantener la simplicidad es necesario refactorizar el código, ésta es
+la mejor manera de mantener el código simple según va creciendo.
 
-    Simplicidad:
+También se aplica este valor de simplicidad a la documentación, de esta manera el
+código debe comentarse en su justa medida, intentando eso sí que
+el código esté autodocumentado. Para ello se deben elegir
+adecuadamente los nombres de las variables, métodos y clases. Los
+nombres largos no decrementan la eficiencia del código ni el
+tiempo de desarrollo gracias a las herramientas de autocompletado
+y refactorización que existen actualmente.
 
-La simplicidad es la base de la programación extrema. Se simplifica el diseño para agilizar el desarrollo y facilitar el mantenimiento. Un diseño complejo del código junto a sucesivas modificaciones por parte de diferentes desarrolladores hacen que la complejidad aumente exponencialmente. Para mantener la simplicidad es necesaria la refactorización del código, ésta es la manera de mantener el código simple a medida que crece. También se aplica la simplicidad en la documentación, de esta manera el código debe comentarse en su justa medida, intentando eso sí que el código esté autodocumentado. Para ello se deben elegir adecuadamente los nombres de las variables, métodos y clases. Los nombres largos no decrementan la eficiencia del código ni el tiempo de desarrollo gracias a las herramientas de autocompletado y refactorización que existen actualmente. Aplicando la simplicidad junto con la autoría colectiva del código y la programación por parejas se asegura que cuanto más grande se haga el proyecto, todo el equipo conocerá más y mejor el sistema completo.
+\begin{itemize}
+\item \textbf{Comunicación}
+\end{itemize}
+La comunicación se realiza de diferentes formas. Para los
+programadores el código comunica mejor cuanto más simple sea. Si el
+código es complejo hay que esforzarse para hacerlo inteligible. El
+código autodocumentado es más fiable que los comentarios ya que éstos
+últimos pronto quedan desfasados con el código a medida que es
+modificado. Debe comentarse sólo aquello que no va a variar, por
+ejemplo el objetivo de una clase o la funcionalidad de un método. Las
+pruebas unitarias son otra forma de comunicación ya que describen el
+diseño de las clases y los métodos al mostrar ejemplos concretos de
+como utilizar su funcionalidad. Los programadores se comunican
+constantemente gracias a la programación por parejas. La comunicación
+con el cliente es fluida ya que el cliente forma parte del equipo de
+desarrollo. El cliente decide qué características tienen prioridad y
+siempre debe estar disponible para solucionar dudas.
 
-    Comunicación:
+\begin{itemize}
+\item \textbf{Retroalimentación (feedback)}
+\end{itemize}
+Al estar el cliente integrado en el proyecto, su opinión sobre el
+estado del proyecto se conoce en tiempo real. Al realizarse ciclos muy
+cortos tras los cuales se muestran resultados, se minimiza el tener
+que rehacer partes que no cumplen con los requisitos y ayuda a los
+programadores a centrarse en lo que es más importante. Considérense
+los problemas que derivan de tener ciclos muy largos. Meses de trabajo
+pueden tirarse por la borda debido a cambios en los criterios del
+cliente o malentendidos por parte del equipo de desarrollo. El código
+también es una fuente de retroalimentación gracias a las herramientas
+de desarrollo. Por ejemplo, las pruebas unitarias informan sobre el
+estado de salud del código. Ejecutar las pruebas unitarias
+frecuentemente permite descubrir fallos debidos a cambios recientes en
+el código.
 
-La comunicación se realiza de diferentes formas. Para los programadores el código comunica mejor cuanto más simple sea. Si el código es complejo hay que esforzarse para hacerlo inteligible. El código autodocumentado es más fiable que los comentarios ya que éstos últimos pronto quedan desfasados con el código a medida que es modificado. Debe comentarse sólo aquello que no va a variar, por ejemplo el objetivo de una clase o la funcionalidad de un método. Las pruebas unitarias son otra forma de comunicación ya que describen el diseño de las clases y los métodos al mostrar ejemplos concretos de como utilizar su funcionalidad. Los programadores se comunican constantemente gracias a la programación por parejas. La comunicación con el cliente es fluida ya que el cliente forma parte del equipo de desarrollo. El cliente decide qué características tienen prioridad y siempre debe estar disponible para solucionar dudas.
+\begin{itemize}
+\item \textbf{Coraje}
+\end{itemize}
+Muchas de las prácticas implican valentía. Una de ellas es siempre
+diseñar y programar para hoy y no para mañana. Esto es un esfuerzo
+para evitar empantanarse en el diseño y requerir demasiado tiempo y
+trabajo para implementar todo lo demás del proyecto. La valentía le
+permite a los desarrolladores que se sientan cómodos con reconstruir
+su código cuando sea necesario. Esto significa revisar el sistema
+existente y modificarlo si con ello los cambios futuros se
+implementaran mas fácilmente. Otro ejemplo de valentía es saber cuando
+desechar un código: valentía para quitar código fuente obsoleto, sin
+importar cuanto esfuerzo y tiempo se invirtió en crear ese
+código. Además, valentía significa persistencia: un programador puede
+permanecer sin avanzar en un problema complejo por un día entero, y
+luego lo resolverá rápidamente al día siguiente, sólo si es
+persistente.
 
-    Retroalimentación (feedback):
-
-Al estar el cliente integrado en el proyecto, su opinión sobre el estado del proyecto se conoce en tiempo real. Al realizarse ciclos muy cortos tras los cuales se muestran resultados, se minimiza el tener que rehacer partes que no cumplen con los requisitos y ayuda a los programadores a centrarse en lo que es más importante. Considérense los problemas que derivan de tener ciclos muy largos. Meses de trabajo pueden tirarse por la borda debido a cambios en los criterios del cliente o malentendidos por parte del equipo de desarrollo. El código también es una fuente de retroalimentación gracias a las herramientas de desarrollo. Por ejemplo, las pruebas unitarias informan sobre el estado de salud del código. Ejecutar las pruebas unitarias frecuentemente permite descubrir fallos debidos a cambios recientes en el código.
-
-    Coraje o valentía:
-
-Muchas de las prácticas implican valentía. Una de ellas es siempre diseñar y programar para hoy y no para mañana. Esto es un esfuerzo para evitar empantanarse en el diseño y requerir demasiado tiempo y trabajo para implementar todo lo demás del proyecto. La valentía le permite a los desarrolladores que se sientan cómodos con reconstruir su código cuando sea necesario. Esto significa revisar el sistema existente y modificarlo si con ello los cambios futuros se implementaran mas fácilmente. Otro ejemplo de valentía es saber cuando desechar un código: valentía para quitar código fuente obsoleto, sin importar cuanto esfuerzo y tiempo se invirtió en crear ese código. Además, valentía significa persistencia: un programador puede permanecer sin avanzar en un problema complejo por un día entero, y luego lo resolverá rápidamente al día siguiente, sólo si es persistente.
-
-    Respeto:
-
-El respeto se manifiesta de varias formas. Los miembros del equipo se respetan los unos a otros, porque los programadores no pueden realizar cambios que hacen que las pruebas existentes fallen o que demore el trabajo de sus compañeros. Los miembros respetan su trabajo porque siempre están luchando por la alta calidad en el producto y buscando el diseño óptimo o más eficiente para la solución a través de la refactorización del código. Los miembros del equipo respetan el trabajo del resto no haciendo menos a otros, una mejor autoestima en el equipo y elevando el ritmo de producción en el equipo.
-
-----------------------------------------
-
+\begin{itemize}
+\item \textbf{Respeto}
+\end{itemize}
+El respeto se manifiesta de varias formas. Los miembros del equipo se
+respetan los unos a otros, porque los programadores no pueden realizar
+cambios que hacen que las pruebas existentes fallen o que demore el
+trabajo de sus compañeros. Los miembros respetan su trabajo porque
+siempre están luchando por la alta calidad en el producto y buscando
+el diseño óptimo o más eficiente para la solución a través de la
+refactorización del código. Los miembros del equipo respetan el
+trabajo del resto no haciendo menos a otros, una mejor autoestima en
+el equipo y elevando el ritmo de producción en el equipo.
 
 
 \subsection{Iteraciones de trabajo}
@@ -1266,19 +1340,41 @@ respecto a la previsión de la iteración anterior.
 
 
 \section{Anexo: estudio de mercado}
-Perspectivas
+Las plataformas móviles, refiriéndonos a smartphones, están, poco a
+poco, comiendo terreno a las consolas portátiles. La oferta es un
+videojuego simple y pequeño al cual jugar ocasionalmente durante
+poco tiempo. Esta oferta no va dirigida a los grandes jugones de
+aventuras gráficas complejas o RPG's de miles de posibilidades, sino a un
+mercado en expansión de ``pequeños jugadores/as'' que no dedican al
+juego parte de su tiempo libre, sino que utilizan ese videojuego de su
+smartphone  para ``matar el tiempo'' entre periodos muertos como
+viajes cortos, esperando su turno, en el baño, etc. A este público se
+le pretende ofrecer algo tan atractivo como una aplicación muy barata, en
+algunos casos hasta gratuita, original, de fácil jugabilidad, fácil de
+instalar y siempre disponible en su bolsillo(en su smartphone).
 
-Fácil acceso al mercado, barato el acceso. Android como sistema y
-comunidad facilita el desarrollo.
+El acceso al mercado de los videojuegos para smartphones como
+desarrollador es barato. Android, como sistema y comunidad, es de
+todos los sistemas operativos para estos dispositivos el que más
+facilita el desarrollo, entre otras cosas por estar liberado con
+licencia Apache y ser de código abierto.
 
-Mucha competencia
+Pero no todo el monte es orgasmo, este es un mercado de fácil acceso,
+lo que hace que exista mucha competencia. Y la principal consecuencia
+de esto es que es complicado hacerte visible y si no estás entre los
+mejores es como si no existieses.
 
-Si no estás en el top ten no existes.
+Ante la ingente cantidad de videojuegos y de posibilidades es
+perfectamente aplicable la \emph{Ley de Sturgeon} que dice que el 90\%
+de todo es basura. Y es cierto, como prácticamente todo el mundo tiene
+acceso a este mercado podemos encontrar muchos productos que serían
+clasificables como basura. Para no entrar en este conjunto se debe
+aportar un toque de originalidad o novedad que no es sencillo.
 
-Ley de Sturgeon 90\% de todo ES MIERDA
+Este reciente mercado tiene cierto paralelismo con la época de oro del
+software español 1983-1992. Con pocos recursos, para máquinas de 8
+bits, principalmente Spectrum se premiaba muchísimo la originalidad
 
-Cierto paralelismo con la época de ora del software español. Con pocos
-recursos
 
 Muy premiadas la jugabilidad y la originalidad. Orientado a un mercado
 de jugadores casuales, con una interfaz fácil y que pueda jugarse
