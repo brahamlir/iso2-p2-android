@@ -1,0 +1,434 @@
+\documentclass{beamer}
+
+\mode<presentation>
+{
+  \usetheme{Warsaw}
+  \setbeamercovered{transparent}
+}
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+\usepackage{movie15}
+\usepackage{amsmath}
+\usepackage{eurosym}
+\newcommand{\red}[1]{\color{red}#1\color{black}}
+% \usepackage{multimedia}
+
+\title % (optional, use only with long paper titles)
+{Aplicaciones sobre Android}
+
+\subtitle
+{Ingeniería de Software 2}
+
+\author % (optional, use only with lots of authors)
+{Shurdroid}
+% - Give the names in the same order as the appear in the paper.
+% - Use the \inst{?} command only if the authors have different
+% affiliation.
+
+\institute[Universidad de Castilla-La Mancha] % (optional, but mostly needed)
+
+% - Use the \inst command only if there are several affiliations.
+% - Keep it simple, no one is interested in your street address.
+
+% \date % (optional, should be abbreviation of conference name)
+% {Realizado por: Manuel J. Abaldea}
+
+% \AtBeginSubsection[]
+% {
+%   \begin{frame}<beamer>{Índice general}
+%     \tableofcontents[currentsection,currentsubsection]
+%   \end{frame}
+% }
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Índice general}
+  \tableofcontents[]
+  % You might wish to add the option [pausesections]
+\end{frame}
+
+\section{Presentación de la empresa}
+\subsection{Shurdroid S.L}
+
+
+\begin{frame}[fragile]
+  \frametitle{Shurdroid S.L}
+  \begin{itemize}
+  \item Empresa orientada al desarrollo de videojuegos
+  \item Desarrollo de videojuegos para plataformas móviles
+  \item Especialización en dispositivos con sistema operativo Android
+  \item Expectativas de adquirir experiencia y prestigio en el mundo de los videojuegos
+  \end{itemize}
+\end{frame}
+
+\subsection{Motivaciones}
+\begin{frame}[fragile]
+  \frametitle{Motivaciones}
+  \begin{itemize}
+  \item Nuevo mercado de jugadores casuales
+  \item Acceso al mercado barato y con una gran comunidad %lo que
+                                %significa muchos recursos
+  \item Se premia la originalidad y jugabilidad, como en la edad de oro de SW español
+  \item Muchos productos. \emph{Ley de Sturgeon}
+  \item Si no estás en el TOP 10 no existes
+  \end{itemize}
+\end{frame}
+
+\subsection{Metodología de desarrollo}
+\begin{frame}[fragile]
+  \frametitle{PUD + eXtreamPrograming}
+\scriptsize{
+  \begin{itemize}
+  \item División de las fases de desarrollo en iteraciones como en PUD
+  \item EXtreme Progamming, el más destacado de los
+procesos ágiles de desarrollo software
+\item Más importancia a la adaptabilidad que en la previsibilidad
+\item Organización del trabajo durante las reuniones, marcando los itos
+\item Adaptación a cambios de requisitos sobre la marcha (aspecto
+  natural e inevitable e incluso)
+\item Mayor adaptación a los cambios de requisitos en cualquier punto
+  de la vida del proyecto.
+\end{itemize}
+}
+\begin{block}{Valores:}
+  \begin{center}
+       \textbf{Simplicidad, Comunicación, Retroalimentación, Coraje y Respeto}
+  \end{center}
+\end{block}
+
+\end{frame}
+
+
+\section {Android}
+\subsection{Introducción}
+\begin{frame}[fragile]
+  \frametitle{Introducción}
+  \begin{block}{}
+    Sistema operativo, Middleware y Aplicaciones de usuario
+  \end{block}
+  \begin{block}{}
+    Basado en el núcleo 2.6 de Linux
+  \end{block}
+  \begin{block}{}
+    Licencia de distribución Apache
+  \end{block}
+  \begin{block}{}
+    Se programan en Java y se ejecutan en una máquina virtual
+    Dalvik
+  \end{block}
+  % mencionar en la presentación que se puede programar
+  % nativamente en C, y C++
+\end{frame}
+
+\subsection{Características}
+\begin{frame}[fragile]
+  \frametitle{Características técnicas de Android}
+  \begin{itemize}
+\item Framework de aplicaciones
+\item Máquina virtual Dalvik
+\item Navegador integrado
+\item Gráficos optimizados (biblioteca de gráficos 2D, 3D basado en OpenGL)
+\item SQLite para almacenamiento de datos estructurados.
+\item Soporte para medios multimedia
+\item Telefonía GSM (dependiente del hardware).
+\item Bluetooth, EDGE, 3G, y WiFi.
+\item Cámara, GPS, brújula, inclinómetro y acelerómetro
+\item Ambiente desarrollo (emulador, herramientas de depuración
+  depurar, perfiles de memoria, etc
+\item Pantalla táctil.
+\item Android Market
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Arquitectura de Android}
+  \begin{block}{}
+    Organizada en capas. Cada capa usa los servicios de las capas inferiores.
+  \end{block}
+  \begin{block}{Capas:}
+    \begin{itemize}
+    \item Aplicaciones
+    \item Framework de aplicaciones
+    \item Librerías
+    \item Runtime de Android
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Ciclo de vida de las aplicaciones Android}
+  \begin{columns}[r]
+    \column{1.8 in}
+    \scriptsize{
+      \begin{itemize}
+      \item Cada aplicación se ejecuta en su propio proceso.
+      \item Cada proceso está formado por una o varias
+        actividades independientes
+      \end{itemize}
+    }
+    \tiny{
+      \begin{block}{Actividades:}
+        \textbf{onCreate()} Representa la creación de la actividad.\\
+        \textbf{onDestroy()} Representa el fin de la actividad.\\
+        \textbf{onStart()} Representa el inicio de la visibilidad de la
+        aplicación.\\
+        \textbf{onStop()} Representa el fin de la visibilidad de la aplicación.\\
+        \textbf{onResume()} Representa el inicio de la parte útil de la vida de la aplicación.\\
+        \textbf{onPause()} Representa el fin de la parte útil de la vida de la aplicación.
+
+        % \begin{itemize}
+        % \item onCreate(). Representa la creación de la actividad.
+        % \item onDestroy(). Representa el fin de la actividad.
+        % \item onStart(). Representa el inicio de la visibilidad de la
+        %   aplicación. No es necesario que la aplicación tenga el foco de acción.
+        % \item onStop(). Representa el fin de la visibilidad de la aplicación.
+        % \item onResume(). Representa el inicio de la parte útil de la vida de la aplicación.
+        % \item onPause(). Representa el fin de la parte útil de la vida de la aplicación. En
+        %   este estado se puede decir que el proceso está dormido.
+        % \end{itemize}
+      \end{block}
+    }
+    \column{2.0 in}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width = 4.5 cm]{img/figura3.jpg}
+    \end{figure}
+  \end{columns}
+\end{frame}
+
+\subsection{Herramientas y comercialización}
+\begin{frame}[fragile]
+  \frametitle{Herramientas de Android}
+  El SDK de Android incluye varias herramientas que facilitan la creación de
+  aplicaciones:
+  \begin{itemize}
+  \item Emulador. \small{ Permite el diseño, depuración y prueba de las aplicaciones en
+    el entorno de ejecución de Android}
+  \item Plugin ADT.\small{ Es un plugin integrable en Eclipse que facilita la creación de
+    aplicaciones Android}
+  \item Android Virtual Devices (AVDs).\small{ Son los dispositivos empleados por el
+    emulador para ejecutar las aplicaciones}
+  \item Dalvik Debug Monitor Service (DDMS).\small{ Está integrada en la máquina virtual
+    Dalvik y ayuda en la depuración}
+  \item Android Debug Bridge (ADB).\small{ Entre sus funciones más importantes, está
+    la de permitir instalar los archivos .apk}
+  \item Android Asset Packaging Tool (APPT). \small{Permite crear los archivos .apk}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Comercialización de las aplicaciones}
+\small{
+Se puede obtener beneficios de su venta o incluyendo publicidad.\\
+Necesaria una cuenta de Google Android Market para publicar al
+aplicación.\\
+Para generar un archivo .apk válido para Android Market se seguirán estos
+pasos:
+}
+\scriptsize{
+\begin{enumerate}
+\item Situarse en la carpeta principal del proyecto, en la vista de exploración de
+proyectos de Eclipse.
+\item Pulsar el botón derecho del ratón entrar en Android Tools.
+\item Pulsar en Export Signed Aplication Package.
+\item Seleccionar el proyecto a Exportar.
+\item Crear una nueva Key (seleccionando donde guardarla y una password).
+\item Rellenar los datos de la Key para hacer única las aplicaciones. Se necesitará
+indicar un alias, una password, una longevidad de clave (máximo 50 años), y
+algún dato de la compañía o personal. Esta Key debe ser usada en futuras
+versiones de la aplicación, por lo que es importante protegerla.
+\item Guardar el archivo final en el destino deseado y con el nombre elegido.
+\end{enumerate}
+}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Comercialización de las aplicaciones}
+Una vez generada la aplicación, se procederá a publicarla en el Android Market.
+Se formalizará una cuenta y se pagarán 25\$, (18 \euro aproximadamente):
+\begin{enumerate}
+\item Ir a \href{http://market.android.com/}{Android Market}
+\item Entrar con una cuenta Google (Gmail por ejemplo). Si no se tiene, se crea
+una nueva.
+\item Introducir los datos acerca de la cuenta (web, teléfono y nick de publicación).
+\item Posteriormente, ir a Google CheckOut y rellenar los datos de pago de nuestra
+tarjeta de débito o crédito.
+\item Cuando la confirmación de la transacción se reciba, se podrá comenzar a
+publicar las aplicaciones.
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Comercialización de las aplicaciones}
+\begin{columns}[r]
+    \column{2.0 in}
+\scriptsize{
+Para publicar aplicaciones fuera de Android Market es necesario generar un archivo .apk en modo \emph{Release}
+
+\begin{enumerate}
+\item Situarse en la carpeta principal del proyecto, en la vista de
+  exploración de proyectos de Eclipse
+\item Pulsar el botón derecho del ratón entrar en Android Tools
+\item Pulsar en Export Unsigned Aplication Package
+\item Guardar el archivo final en el destino deseado y con el nombre
+  elegido
+\end{enumerate}
+}
+    \column{1.8 in}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width = 4 cm]{img/figura13.jpg}
+    \end{figure}
+  \end{columns}
+\end{frame}
+
+
+\section{AndEngine}
+\subsection{Introducción}
+\begin{frame}[fragile]
+  \frametitle{AndEngine}
+  \begin{block}{¿Qué es AndEngine?}
+    {\LARGE
+      \begin{itemize}
+      \item \textbf{Framework} utilizado como motor de juegos para Android
+      \item Implementación 2D de \textbf{OpenGl}
+      \item Distribuido bajo licencia \textbf{LGPL}
+      \end{itemize}}
+  \end{block}
+
+ Su finalidad, como la de todos los frameworks, es optimizar el
+esfuerzo del desarrollador ofreciéndonos una buena base desde donde
+comenzar a crear nuestra propia aplicación.
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{AndEngine}
+  \begin{block}{Utilidades}
+    \begin{itemize}
+    \item \textbf{Engine}. Motor del juego
+    \item \textbf{Scene}. Contenedor
+    \item \textbf{Textures}. Imágenes en memoria
+    \item \textbf{Sprites}. Objetos interactivos
+    \item \textbf{Physics}. Motor físico
+    \item \textbf{Detección de colisiones}
+    \item \textbf{Música y efectos de sonido}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Conceptos básicos}
+  \begin{itemize}
+  \item \textbf{BaseGameActivity}. Raiz del juego
+  \item \textbf{Engine}. Motor interno del juego
+  \item \textbf{IResolutionPolicy}. Parte del EngineOptions
+  \item \textbf{Camera}. Define la parte visible de la escena
+  \item \textbf{Scene}. Contenedor para los objetos en la escena
+  \item \textbf{Entity}. Objeto que puede ser dibujado
+  \item \textbf{Texture}. Imagen almacenada en memoria
+  \item \textbf{ITextureSource}. Implementacion de ITextureSource-interface
+  \item \textbf{TextureRegion}. Usada por Sprites para posicionar imágenes
+  \item \textbf{PhysicsConnector}. Motor de físicas integrado en el Engine
+  \end{itemize}
+\end{frame}
+
+\subsection{Entorno de desarrollo}
+\begin{frame}[fragile]
+  \frametitle{Entorno de desarrollo}
+  \begin{block}{Eclipse}
+La integración de las herramientas tanto de Android como de
+AndEngine es sencilla, completa y está bien documentada.
+  \end{block}
+
+ \begin{columns}[t]
+    \column{1.8 in}
+    \scriptsize{
+     Configurar el plugin ADT en Eclipse.\\
+     Help => Install new software
+\begin{verbatim}
+https://dl-ssl.google.com/android/eclipse/
+\end{verbatim}
+    }
+    \column{2.0 in}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width = 2 cm]{img/1.jpg}
+      \includegraphics[width = 4 cm]{img/2.jpg}
+    \end{figure}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Entorno de desarrollo}
+  \begin{block}{Configurar ADT}
+    Windows => Preferences     [Android]
+  \end{block}
+    \begin{figure}[h!]
+      \centering
+  \includegraphics[width = 3.8 cm]{img/3.jpg}
+ \includegraphics[width = 6.2 cm]{img/4.jpg}
+    \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Entorno de desarrollo}
+  \begin{block}{API}
+    Podremos instalar diferentes APIs según la versión de Android
+    sobre la que queramos trabajar.
+  \end{block}
+\begin{figure}[h!]
+ \begin{center}
+   \includegraphics[width = 4 cm]{img/5.jpg}
+
+   \includegraphics[width = 8 cm]{img/6.jpg}
+ \end{center}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Entorno de desarrollo}
+  \begin{block} {Máquina virtual}
+ Si vamos a realizar pruebas sobre una máquina virtual de Android  debemos crearla primero.
+  \end{block}
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width = 8 cm]{img/7_8_9.jpg}
+  \end{figure}
+\end{frame}
+
+\subsection{Primer contacto: ejemplo simple}
+
+\begin{frame}[fragile]
+  \frametitle{Ejemplo AndEngine}
+\begin{block}{}
+\emph{BaseGameActivity}. De esta clase debe heredar nuestra clase principal:
+\end{block}
+\scriptsize{
+\begin{verbatim}
+public class PracIso2 extends BaseGameActivity {
+\end{verbatim}
+}
+Al heredar de \emph{BaseGameActivity} debemos implementar:
+
+\begin{itemize}
+\item \emph{onLoadEngine} Encargado de iniciar el engine del juego.
+\item \emph{onLoadResources} Reserva memoria para los recursos, imágenes, música,
+  fuentes, etc.
+\item \emph{onLoadScene} Carga los recursos en la scene.
+\item \emph{onLoadComplete} Código a ejecutar una vez terminado los anteriores.
+\end{itemize}
+
+\end{frame}
+
+\end{document}
+
