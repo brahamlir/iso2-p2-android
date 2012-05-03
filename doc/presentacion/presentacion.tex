@@ -487,6 +487,7 @@ public class EjAndEngine extends BaseGameActivity {
 }
 \end{frame}
 
+
 \begin{frame}[fragile]
   \frametitle{Ejemplo AndEngine: \emph{creando camera}}
 {\tiny
@@ -510,7 +511,6 @@ Engine(EngineOptions)
 EngineOptions(Fullscreen, ScreenOrientation, ResolutionPolicy, Camera)
 \end{block}
 \end{frame}
-
 \begin{frame}[fragile]
   \frametitle{Ejemplo AndEngine: \emph{pintando fondo}}
 {\tiny
@@ -527,9 +527,9 @@ EngineOptions(Fullscreen, ScreenOrientation, ResolutionPolicy, Camera)
   \end{block}
 \end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{Ejemplo AndEngine: \emph{mostrar script}}
 
+\begin{frame}[fragile]
+\frametitle{Ejemplo AndEngine: \emph{mostrar script}}
 \begin{columns}[t]
     \column{1.8 in}
 {\tiny
@@ -551,24 +551,344 @@ EngineOptions(Fullscreen, ScreenOrientation, ResolutionPolicy, Camera)
     return _scene;
   }
 \end{verbatim}
+}    \column{2.0 in}
+
+   \end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Ejemplo AndEngine: \emph{mostrar script}}
+\begin{columns}[t]
+    \column{1.8 in}
+{\tiny
+\begin{verbatim}
+  public void onLoadResources() {
+    this.mTexture =
+      new Texture(32, 32, TextureOptions.BILINEAR);
+    this.mTextureRegion =
+      TextureRegionFactory.createFromAsset(
+        this.mTexture, this, "image.png", 0, 0);
+    this.mEngine.getTextureManager().loadTexture(this.mTexture);
+  }
+  public Scene onLoadScene() {
+    _scene = new Scene();
+    scene.setBackground(new ColorBackground(0f, 1f, 0f));
+    _sample_sprite = new Sprite(344, 224, this.mTextureRegion);
+    _scene.getLastChild().attachChild(_sample_sprite);
+
+    return _scene;
+  }
+\end{verbatim}
+}    \column{2.0 in}
+\begin{block}{}
+    \scriptsize{createFromAsset(Texture, Context,Path, pX, pY)}
+  \end{block}
+\vspace{20mm}
+  \begin{block}{}
+    \scriptsize{Sprite(pX, pY, TextureRegion)}
+  \end{block}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Ejemplo AndEngine: \emph{capturar evento de pantalla}}
+
+\begin{columns}[t]
+    \column{1.8 in}
+{\tiny
+\begin{verbatim}
+public Scene onLoadScene()  {
+    ...
+    ...
+    ...
+    _scene.setOnSceneTouchListener(this);
+    ...
+    ...
+    ...
+
+public boolean onSceneTouchEvent(Scene scene, TouchEvent touchEvent)  {
+    if (touchEvent.isActionDown())
+    	_screenPressed = true;
+
+    if (touchEvent.isActionUp()) {
+
+    	_screenPressed = false;
+    	_screenJustReleased = true;
+    }
+    return true;
+  }
+\end{verbatim}
+}
+    \column{2.0 in}
+
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Ejemplo AndEngine: \emph{capturar evento de pantalla}}
+
+\begin{columns}[t]
+    \column{1.8 in}
+{\tiny
+\begin{verbatim}
+public Scene onLoadScene()  {
+    ...
+    ...
+    ...
+    _scene.setOnSceneTouchListener(this);
+    ...
+    ...
+    ...
+
+public boolean onSceneTouchEvent(Scene scene, TouchEvent touchEvent)  {
+    if (touchEvent.isActionDown())
+    	_screenPressed = true;
+
+    if (touchEvent.isActionUp()) {
+
+    	_screenPressed = false;
+    	_screenJustReleased = true;
+    }
+    return true;
+  }
+\end{verbatim}
 }
     \column{2.0 in}
 
 \begin{block}{}
-    \scriptsize{createFromAsset(Texture, Context,Path, pX, pY)}
+    \scriptsize{a la espera de un evento en la pantalla)}
   \end{block}
 
 \vspace{20mm}
 
   \begin{block}{}
-    \scriptsize{Sprite(pX, pY, TextureRegion)}
+    \scriptsize{captura del evento}
+  \end{block}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Ejemplo AndEngine: \emph{fondos móviles}}
+\begin{columns}[t]
+    \column{1.8 in}
+{\tiny
+\begin{verbatim}
+    final AutoParallaxBackground autoParallaxBackground =
+            new AutoParallaxBackground(0, 0, 0, 5);
+
+    Sprite backgroundBackSprite = new Sprite(0, 0, _backgroundBackTexture);
+
+    autoParallaxBackground.attachParallaxEntity(
+        new ParallaxEntity(0.0f, backgroundBackSprite));
+
+    Sprite backgroundCactusSprite = new Sprite(
+    	0, _jhonyY + _jhonySprite.getHeight() - _backgroundCactusTexture.getHeight(),
+        _backgroundCactusTexture);
+
+    autoParallaxBackground.attachParallaxEntity(
+        new ParallaxEntity(-PARALLAX_SPEED / 2, backgroundCactusSprite));
+
+    _floorSprite = new Sprite(0, _jhonyY + _jhonySprite.getHeight(),
+        _floorTexture);
+
+    autoParallaxBackground.attachParallaxEntity(
+        new ParallaxEntity(-PARALLAX_SPEED, _floorSprite));
+
+    _scene.setBackground(autoParallaxBackground);
+
+    _scene.registerUpdateHandler(this);
+\end{verbatim}
+}
+    \column{2.0 in}
+
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Ejemplo AndEngine: \emph{fondos móviles}}
+\begin{columns}[t]
+    \column{1.8 in}
+{\tiny
+\begin{verbatim}
+    final AutoParallaxBackground autoParallaxBackground =
+            new AutoParallaxBackground(0, 0, 0, 5);
+
+    Sprite backgroundBackSprite = new Sprite(0, 0, _backgroundBackTexture);
+
+    autoParallaxBackground.attachParallaxEntity(
+        new ParallaxEntity(0.0f, backgroundBackSprite));
+
+    Sprite backgroundCactusSprite = new Sprite(
+    	0, _jhonyY + _jhonySprite.getHeight() - _backgroundCactusTexture.getHeight(),
+        _backgroundCactusTexture);
+
+    autoParallaxBackground.attachParallaxEntity(
+        new ParallaxEntity(-PARALLAX_SPEED / 2, backgroundCactusSprite));
+
+    _floorSprite = new Sprite(0, _jhonyY + _jhonySprite.getHeight(),
+        _floorTexture);
+
+    autoParallaxBackground.attachParallaxEntity(
+        new ParallaxEntity(-PARALLAX_SPEED, _floorSprite));
+
+    _scene.setBackground(autoParallaxBackground);
+
+    _scene.registerUpdateHandler(this);
+\end{verbatim}
+}
+    \column{2.0 in}
+\vspace{-8mm}
+\begin{block}{}
+    \scriptsize{Dentro de onLoadScene()}
   \end{block}
 
   \end{columns}
+\end{frame}
 
 
+\begin{frame}[fragile]
+  \frametitle{Ejemplo AndEngine: \emph{fondos móviles}}
+\begin{columns}[t]
+    \column{1.8 in}
+{\tiny
+\begin{verbatim}
+    final AutoParallaxBackground autoParallaxBackground =
+            new AutoParallaxBackground(0, 0, 0, 5);
+
+    Sprite backgroundBackSprite = new Sprite(0, 0, _backgroundBackTexture);
+
+    autoParallaxBackground.attachParallaxEntity(
+        new ParallaxEntity(0.0f, backgroundBackSprite));
+
+    Sprite backgroundCactusSprite = new Sprite(
+    	0, _jhonyY + _jhonySprite.getHeight() - _backgroundCactusTexture.getHeight(),
+        _backgroundCactusTexture);
+
+    autoParallaxBackground.attachParallaxEntity(
+        new ParallaxEntity(-PARALLAX_SPEED / 2, backgroundCactusSprite));
+
+    _floorSprite = new Sprite(0, _jhonyY + _jhonySprite.getHeight(),
+        _floorTexture);
+
+    autoParallaxBackground.attachParallaxEntity(
+        new ParallaxEntity(-PARALLAX_SPEED, _floorSprite));
+
+    _scene.setBackground(autoParallaxBackground);
+
+    _scene.registerUpdateHandler(this);
+\end{verbatim}
+}
+    \column{2.0 in}
+\vspace{6mm}
+\begin{block}{}
+    \scriptsize{AutoParallaxBackground(pRed, pGreen, pBlue,
+      pParallaxChangePerSecond)}
+  \end{block}
+
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Ejemplo AndEngine: \emph{fondos móviles}}
+\begin{columns}[t]
+    \column{1.8 in}
+{\tiny
+\begin{verbatim}
+    final AutoParallaxBackground autoParallaxBackground =
+            new AutoParallaxBackground(0, 0, 0, 5);
+
+    Sprite backgroundBackSprite = new Sprite(0, 0, _backgroundBackTexture);
+
+    autoParallaxBackground.attachParallaxEntity(
+        new ParallaxEntity(0.0f, backgroundBackSprite));
+
+    Sprite backgroundCactusSprite = new Sprite(
+    	0, _jhonyY + _jhonySprite.getHeight() - _backgroundCactusTexture.getHeight(),
+        _backgroundCactusTexture);
+
+    autoParallaxBackground.attachParallaxEntity(
+        new ParallaxEntity(-PARALLAX_SPEED / 2, backgroundCactusSprite));
+
+    _floorSprite = new Sprite(0, _jhonyY + _jhonySprite.getHeight(),
+        _floorTexture);
+
+    autoParallaxBackground.attachParallaxEntity(
+        new ParallaxEntity(-PARALLAX_SPEED, _floorSprite));
+
+    _scene.setBackground(autoParallaxBackground);
+
+    _scene.registerUpdateHandler(this);
+\end{verbatim}
+}
+    \column{2.0 in}
+\vspace{18mm}
+\begin{block}{}
+    \scriptsize{ParallaxEntity(pParallaxFactor, pShape)}
+  \end{block}
+
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Ejemplo AndEngine: \emph{fondos móviles}}
+\begin{columns}[t]
+    \column{1.8 in}
+{\tiny
+\begin{verbatim}
+    final AutoParallaxBackground autoParallaxBackground =
+            new AutoParallaxBackground(0, 0, 0, 5);
+
+    Sprite backgroundBackSprite = new Sprite(0, 0, _backgroundBackTexture);
+
+    autoParallaxBackground.attachParallaxEntity(
+        new ParallaxEntity(0.0f, backgroundBackSprite));
+
+    Sprite backgroundCactusSprite = new Sprite(
+    	0, _jhonyY + _jhonySprite.getHeight() - _backgroundCactusTexture.getHeight(),
+        _backgroundCactusTexture);
+
+    autoParallaxBackground.attachParallaxEntity(
+        new ParallaxEntity(-PARALLAX_SPEED / 2, backgroundCactusSprite));
+
+    _floorSprite = new Sprite(0, _jhonyY + _jhonySprite.getHeight(),
+        _floorTexture);
+
+    autoParallaxBackground.attachParallaxEntity(
+        new ParallaxEntity(-PARALLAX_SPEED, _floorSprite));
+
+    _scene.setBackground(autoParallaxBackground);
+
+    _scene.registerUpdateHandler(this);
+\end{verbatim}
+}
+    \column{2.0 in}
+\vspace{55mm}
+\begin{block}{}
+    \scriptsize{setBackground(pBackground)}
+  \end{block}
+
+  \end{columns}
+\end{frame}
+
+\section*{¿Preguntas?}
+\begin{frame}[fragile]
+  \frametitle{Preguntas}
+
+
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width = 10cm]{img/askandybig.png}
+    \end{figure}
 \end{frame}
 
 \end{document}
+
 
 %Tienes alguno para la presión de la pantalla y para update handler
